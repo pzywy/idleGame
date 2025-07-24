@@ -2,6 +2,8 @@ import { useSelector } from "react-redux";
 import { ICreation } from "../../store/creations/creationTypes";
 import { RootState } from "../../store/store";
 
+//TODO in future we could make all previous needed items too
+
 /**
  * Custom hook to calculate how many of a creation can be afforded.
  * @param creation The creation object to check affordability for.

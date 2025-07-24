@@ -8,6 +8,10 @@ export const elements: IElement[] =
             id: EResources.energy,
             name: "Energy",
             effects: [
+                {
+                    resource: { resource: EResources.divinity, type: 'stat' },
+                    value: 5,
+                }
             ],
             owned: 0,
             cost: [{

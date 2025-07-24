@@ -20,6 +20,10 @@ const statsSlice = createSlice({
                     break;
                 case EResources.followers: state.followers += action.payload.amount;
                     break;
+                case EResources.divinity: state.divinity += action.payload.amount;
+                    break;
+                case EResources.might: state.might += action.payload.amount;
+                    break;
                 default: throw new Error(`resource ${action.payload.id} not handled!`);
             }
         },

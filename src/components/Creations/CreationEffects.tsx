@@ -7,7 +7,7 @@ const CreationEffects: React.FC<{ effects: IResourceEffect[], count?: number }> 
     return (
         <div>
             {effects.map((effect, index) => (
-                <div key={index}>
+                <div style={styles.stat} key={index}>
                     <strong>{getResourceName(effect.resource)}: </strong>
                     <span>{formatNumber(effect.value * count)}</span>
                 </div>
@@ -16,4 +16,11 @@ const CreationEffects: React.FC<{ effects: IResourceEffect[], count?: number }> 
     );
 };
 
+const styles: { [key: string]: React.CSSProperties } = {
+    stat: {
+        fontSize: "1rem",
+        color: "#555",
+        margin: "5px 0",
+    },
+};
 export default CreationEffects;

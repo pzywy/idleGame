@@ -5,6 +5,7 @@ import CreationEffects from "./CreationEffects";
 import { ICreation } from "../../store/creations/creationTypes";
 import CreationBuy from "./CreationBuy";
 import CreationHeader from "./CreationHeader";
+import CreationOwned from "./CreationOwned";
 
 const Creation: React.FC<{ creation: ICreation }> = ({ creation }) => {
 
@@ -12,15 +13,15 @@ const Creation: React.FC<{ creation: ICreation }> = ({ creation }) => {
         <div style={styles.card}>
             <CreationHeader creation={creation} />
 
+            <h4>Effects:</h4>
             <CreationEffects effects={creation.effects} />
 
-            {creation.owned != null && (
-                <p style={styles.stat}>
-                    <strong>Owned:</strong> {formatNumber(creation.owned, 0)}
-                </p>
-            )}
-            {/* TODO owned and effect of them */}
 
+            <h4>Created</h4>
+            <CreationOwned creation={creation} name='Created' />
+
+
+            <h4>Cost:</h4>
             <CreationCost costs={creation.cost} />
 
             <CreationBuy creation={creation} />

@@ -1,14 +1,24 @@
-import { FormatFunction } from "../../utils/formatFunctions";
+import { FormatFunction } from "../utils/formatFunctions";
 
 export enum EResources {
     followers = 'followers',
     power = 'power',
     divinity = 'divinity',
     might = 'might',
+
     energy = 'energy',
     light = 'light',
+    air = 'air',
+    fire = 'fire',
+    water = 'water',
+    earth = 'earth',
+    stone = 'stone',
+    life = 'life',
+
+
     miracle = 'miracle',
     temple = 'temple',
+
     creationSpeed = 'creationSpeed'
 }
 

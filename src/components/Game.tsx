@@ -23,16 +23,18 @@ const Game = () => {
 
 
     return (
-        <div>
+        <div style={styles.container}>
             <div style={styles.speed}>
                 <p>Speed: {speed}</p>
                 <button onClick={increaseSpeed}>Increase Speed</button>
                 <button onClick={decreaseSpeed}>Decrease Speed</button>
 
             </div>
-            <Stats />
-            <Elements />
-            <Creations />
+            {/* <Stats /> */}
+            <div style={styles.gameField}>
+                <Elements />
+                <Creations />
+            </div>
         </div>
     );
 };
@@ -44,6 +46,16 @@ const styles: { [key: string]: React.CSSProperties } = {
         top: 0,
         right: 0,
     },
+    container: {
+        display: 'flex',
+        flexDirection: 'column'
+
+    },
+    gameField: {
+        flex: '1',
+        overflow: 'auto',
+        maxHeight: '100%'
+    }
 };
 
 export default Game;

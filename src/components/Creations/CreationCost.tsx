@@ -1,14 +1,16 @@
 import React from "react";
 import { getResourceName } from "../../utils/getResourceName";
 import { formatNumber } from "../../utils/formatNumber";
-import { ICreation } from "../../store/creations/creationTypes";
+import { ICreation } from "../../types/creationTypes";
 import { calculateResourceValue } from "../../utils/formatFunctions";
 
 const CreationCost: React.FC<{ creation: ICreation }> = ({ creation }) => {
     return (
 
 
+
         <div>
+            <p style={styles.stat}>Cost:</p>
             {creation.cost.map((cost, index) => (
                 <p style={styles.stat} key={index}>
                     <strong>{getResourceName(cost.resource)}: </strong>

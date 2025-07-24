@@ -1,5 +1,5 @@
-import { allResources } from "../store/allResources";
-import { EResources, IResource } from "../store/creations/creationTypes";
+import { allResources } from "../store/creations/allResources";
+import { EResources, IResource } from "../types/creationTypes";
 
 export const getResourceName = (resource: IResource): string => {
     const perSecond = resource.mode == 'perSecond'

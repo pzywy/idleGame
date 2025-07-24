@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
-import { ICreation, IResource } from "../../store/creations/creationTypes";
-import { addCreation } from "../../store/creations/creationSlice";
+import { ICreation, IResource } from "../../types/creationTypes";
+import { addCreation } from "../../store/creationSlice";
 import { calculateResourceValue } from "../../utils/formatFunctions";
 
 

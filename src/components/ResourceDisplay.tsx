@@ -48,7 +48,7 @@ const styles: { [key: string]: React.CSSProperties } = {
         minWidth: '300px',
         display: "flex",
         alignItems: "center",
-        marginBottom: "10px",
+        // marginBottom: "10px",
     },
     icon: {
         marginRight: "10px",

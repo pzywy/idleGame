@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ICreation } from "../../store/creations/creationTypes";
+import { ICreation } from "../../types/creationTypes";
 
 const CreationHeader: React.FC<{ creation: ICreation }> = ({ creation }) => {
     return (

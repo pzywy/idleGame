@@ -1,7 +1,7 @@
 import React from "react";
 import CreationCost from "./CreationCost";
 import CreationEffects from "./CreationEffects";
-import { ICreation } from "../../store/creations/creationTypes";
+import { ICreation } from "../../types/creationTypes";
 import CreationBuy from "./CreationBuy";
 import CreationHeader from "./CreationHeader";
 import CreationOwned from "./CreationOwned";
@@ -16,11 +16,8 @@ const Creation: React.FC<{ creation: ICreation }> = ({ creation }) => {
             <CreationEffects creation={creation} />
 
 
-            <h4>Created</h4>
             <CreationOwned creation={creation} name='Created' />
 
-
-            <h4>Cost:</h4>
             <CreationCost creation={creation} />
 
             <CreationBuy creation={creation} />

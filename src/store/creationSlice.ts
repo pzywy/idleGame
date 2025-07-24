@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { creationList } from './creations';
-import { elements } from './elements';
-import { stats } from './stats';
-import { EResources } from './creationTypes';
-import { utilsCreations } from './utilsCreations';
+import { creationList } from './creations/creations';
+import { elements } from './creations/elements';
+import { stats } from './creations/stats';
+import { utilsCreations } from './creations/utilsCreations';
+import { EResources } from '../types/creationTypes';
+
 
 const initialState = {
     creations: creationList,

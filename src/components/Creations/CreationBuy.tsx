@@ -1,13 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useResourceActions } from "../hooks/useResourceActions";
-import { ICreation } from "../../store/creations/creationTypes";
+import { ICreation } from "../../types/creationTypes";
 import { RootState } from "../../store/store";
 import { useCreationAffordability } from "../hooks/useCreationAffordability";
-import { addToQueue, clearQueue } from "../../store/creations/creationQueueSlice";
+import { addToQueue, clearQueue } from "../../store/creationQueueSlice";
 import { formatNumber } from "../../utils/formatNumber";
 import { formatTimeDetailed } from "../../utils/formatTime";
 
+
+//TODO 'check to automate' within queue slice
 const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ creation, buyName = "Create" }) => {
     const dispatch = useDispatch();
     const { payForResource } = useResourceActions();
@@ -51,28 +53,30 @@ const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ crea
 
     return (
         <div className="buttons" style={styles.buttons}>
-            <button
-                style={{
-                    ...styles.button,
-                    ...(!canAfford ? styles.disabledButton : {}),
-                }}
-                onClick={() => handleBuyCreation(1)}
-                disabled={!canAfford}
-            >
-                {buyName} 1
-            </button>
+            <div style={styles.buyButtons}>
+                <button
+                    style={{
+                        ...styles.button,
+                        ...(!canAfford ? styles.disabledButton : {}),
+                    }}
+                    onClick={() => handleBuyCreation(1)}
+                    disabled={!canAfford}
+                >
+                    {buyName} 1
+                </button>
 
-            <button
-                style={{
-                    ...styles.button,
-                    ...(!canAfford ? styles.disabledButton : {}),
-                }}
-                onClick={() => handleBuyCreation(affordability)}
-                disabled={!canAfford}
-            >
-                {buyName} {formatNumber(affordability)} (max)
-            </button>
+                <button
+                    style={{
+                        ...styles.button,
+                        ...(!canAfford ? styles.disabledButton : {}),
+                    }}
+                    onClick={() => handleBuyCreation(affordability)}
+                    disabled={!canAfford}
+                >
+                    {buyName} {formatNumber(affordability)} (max)
+                </button>
 
+            </div>
             {queue && queue.count > 0 && (
                 <button
                     style={{
@@ -106,14 +110,14 @@ const styles: { [key: string]: React.CSSProperties } = {
     buttons: {
         display: "flex",
         flexDirection: "column",
-        gap: "10px",
+        gap: "5px",
         alignItems: "center",
         justifyContent: "center",
         width: "100%",
     },
     button: {
-        marginTop: "15px",
-        padding: "10px 20px",
+        marginTop: "5px",
+        padding: "5px 10px",
         fontSize: "1rem",
         color: "#fff",
         backgroundColor: "#007BFF",
@@ -121,6 +125,13 @@ const styles: { [key: string]: React.CSSProperties } = {
         borderRadius: "5px",
         cursor: "pointer",
         transition: "background-color 0.3s ease",
+    },
+    buyButtons: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: 'center',
+        gap: "5px",
+
     },
     disabledButton: {
         backgroundColor: "#ccc",

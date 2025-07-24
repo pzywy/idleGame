@@ -1,6 +1,6 @@
 import React from "react";
 import { formatNumber } from "../../utils/formatNumber";
-import { ICreation, IResourceCost } from "../../store/creations/creationTypes";
+import { ICreation, IResourceCost } from "../../types/creationTypes";
 import CreationEffects from "./CreationEffects";
 
 const CreationOwned: React.FC<{ creation: ICreation, name?: string }> = ({ creation, name = 'Owned' }) => {
@@ -11,6 +11,7 @@ const CreationOwned: React.FC<{ creation: ICreation, name?: string }> = ({ creat
                     <strong>{name}:</strong> {formatNumber(creation.owned, 0)}
                 </p>
             )}
+             <p style={styles.stat}>Gained:</p>
             <CreationEffects creation={creation} count={creation.owned} />
         </div>
     );

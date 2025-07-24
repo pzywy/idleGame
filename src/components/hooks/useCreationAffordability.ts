@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { ICreation } from "../../store/creations/creationTypes";
+import { ICreation } from "../../types/creationTypes";
 import { RootState } from "../../store/store";
 import { calculateResourceValue } from "../../utils/formatFunctions";
 

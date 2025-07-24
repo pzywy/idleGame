@@ -1,4 +1,4 @@
-import { ICreation, EResources } from "./creationTypes";
+import { ICreation, EResources } from "../../types/creationTypes";
 
 //TODO array of effects
 

@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSpeed } from "../store/gameSlice";
-import { setGlobalSpeedMultiplier, updateProgress } from "../store/creations/creationQueueSlice";
+import { setGlobalSpeedMultiplier, updateProgress } from "../store/creationQueueSlice";
 import useProcessCompletedItems from "../components/hooks/useProcessCompletedItems";
 import { RootState } from "../store/store";
-import { EResources, ICreation, IResourceEffect } from "../store/creations/creationTypes";
-import { addCreation, setCreationCount, setCreationEffectiveValue, updateCreationPerSecond } from "../store/creations/creationSlice";
+import { EResources, ICreation, IResourceEffect } from "../types/creationTypes";
+import { addCreation, setCreationCount, setCreationEffectiveValue, updateCreationPerSecond } from "../store/creationSlice";
 import { calculateResourceValue } from "../utils/formatFunctions";
 
 // Constants

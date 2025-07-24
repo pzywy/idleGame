@@ -41,7 +41,9 @@ const styles: { [key: string]: React.CSSProperties } = {
         display: 'flex',
         flexDirection: 'row',
         gap: '5px',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        marginBottom: '10px',
+        padding: '5px'
     },
 };
 

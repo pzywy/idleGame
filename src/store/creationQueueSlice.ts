@@ -1,6 +1,6 @@
 // store/creationQueueSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { EResources, ICreation } from "./creationTypes";
+import { EResources, ICreation } from "../types/creationTypes";
 
 interface CreationQueueState {
     globalSpeedMultiplier: number; // Global speed multiplier

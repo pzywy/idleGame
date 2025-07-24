@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useResourceActions } from "./useResourceActions";
 import { RootState } from "../../store/store";
-import { clearCompleted } from "../../store/creations/creationQueueSlice";
-import { allResources } from "../../store/allResources";
-import { EResources } from "../../store/creations/creationTypes";
+import { clearCompleted } from "../../store/creationQueueSlice";
+import { allResources } from "../../store/creations/allResources";
+import { EResources } from "../../types/creationTypes";
 
 const useProcessCompletedItems = () => {
     const dispatch = useDispatch();

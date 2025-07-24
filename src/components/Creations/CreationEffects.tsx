@@ -1,7 +1,7 @@
 import React from "react";
 import { getResourceName } from "../../utils/getResourceName";
 import { formatNumber } from "../../utils/formatNumber";
-import { ICreation, IResourceEffect } from "../../store/creations/creationTypes";
+import { ICreation, IResourceEffect } from "../../types/creationTypes";
 import { calculateResourceValue } from "../../utils/formatFunctions";
 
 const CreationEffects: React.FC<{ creation: ICreation, count?: number }> = ({ creation, count = 1 }) => {

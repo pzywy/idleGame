@@ -4,26 +4,24 @@ import { useResourceActions } from "../hooks/useResourceActions";
 import { ICreation } from "../../store/creations/creationTypes";
 import { RootState } from "../../store/store";
 import { useCreationAffordability } from "../hooks/useCreationAffordability";
-import { addToQueue, clearQueue } from "../../store/creations/creationQueSlice";
+import { addToQueue, clearQueue } from "../../store/creations/creationQueueSlice";
+import { formatNumber } from "../../utils/formatNumber";
 
 const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ creation, buyName = "Create" }) => {
     const dispatch = useDispatch();
     const { payForResource } = useResourceActions();
 
-    const queue = useSelector((state: RootState) => state.creationQueue[creation.id]?.queue || []);
-    const baseCreationTime = creation.baseCreationTime ?? 1;
+    const queue = useSelector((state: RootState) => state.creationQueue.creations[creation.id] || {});
+    const baseCreationTime = creation.baseCreationTime ?? 0;
     const affordability = useCreationAffordability(creation)
     const canAfford = affordability > 0;
 
-    const totalTimeLeft = queue.reduce(
-        (sum, item) => sum + (100 - item.progress) * baseCreationTime / 100,
-        0
-    ); // Total time left in seconds
+    const totalTimeLeft = queue.baseCreationTime * queue.count;
 
-    const currentItem = queue[0];
-    const currentProgress = currentItem ? currentItem.progress : 0;
-    const currentTimeLeft = currentItem
-        ? ((100 - currentItem.progress) * baseCreationTime) / 100
+
+    const currentProgress = queue.count > 0 ? queue.progress : 0;
+    const currentTimeLeft = queue.count > 0
+        ? ((100 - queue.progress) * queue.baseCreationTime) / 100
         : 0;
 
     const handleBuyCreation = (count = 1) => {
@@ -40,7 +38,7 @@ const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ crea
     };
 
     const handleCancelCreation = () => {
-        const remainingCount = queue.length;
+        const remainingCount = queue.count;
         payForResource(creation, -remainingCount); // Refund resources for remaining items
         dispatch(clearQueue(creation.id));
     };
@@ -66,10 +64,10 @@ const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ crea
                 onClick={() => handleBuyCreation(affordability)}
                 disabled={!canAfford}
             >
-                {buyName} {affordability} (max)
+                {buyName} {formatNumber(affordability)} (max)
             </button>
 
-            {queue.length > 0 && (
+            {queue.count > 0 && (
                 <button
                     style={{
                         ...styles.button,
@@ -77,15 +75,15 @@ const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ crea
                     }}
                     onClick={handleCancelCreation}
                 >
-                    Cancel ({queue.length} queued)
+                    Cancel ({formatNumber(queue.count)} queued)
                 </button>
             )}
 
-            {queue.length > 0 && (
+            {queue.count > 0 && (
                 <div style={styles.progressContainer}>
                     <div style={{ ...styles.progressBar, width: `${currentProgress}%` }} />
                     <div style={styles.timeText}>
-                        {currentTimeLeft.toFixed(1)}s / {totalTimeLeft.toFixed(1)}s
+                        {formatNumber(currentTimeLeft)}s / {formatNumber(totalTimeLeft)}s
                     </div>
                 </div>
             )}

@@ -54,7 +54,7 @@ export const useResourceActions = () => {
             const amount = effect.value * count;
             modifyResource(effect.resource, amount);
         });
-        dispatch(addCreation({ id: creation.id, count: 1 }));
+        dispatch(addCreation({ id: creation.id, count }));
     };
 
     // Return the functions so they can be used in other components

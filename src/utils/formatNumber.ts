@@ -10,6 +10,10 @@ export const formatNumber = (value: number, decimalPlaces: number = 2, decimalPl
         return value.toFixed(decimalPlacesTier0);
     }
 
+    if (tier > suffixes.length - 1) {
+        return value.toExponential(decimalPlaces)
+    }
+
     const suffix = suffixes[tier];
     const scaledValue = value / Math.pow(10, tier * 3); // Scale the value to match the suffix
 

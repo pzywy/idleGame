@@ -1,7 +1,6 @@
-import { creationList } from "../store/creations/creationList";
+import { allResources } from "../store/allResources";
 import { EResources, IResource } from "../store/creations/creationTypes";
-import { elements } from "../store/creations/elements";
-const allResources = [...elements, ...creationList]
+
 export const getResourceName = (resource: IResource): string => {
     const perSecond = resource.mode == 'perSecond'
     const perSecondString = perSecond ? ' Per Second' : ''

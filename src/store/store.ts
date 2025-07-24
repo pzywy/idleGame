@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import creationReducer from './creations/creationSlice'; // Import the stats reducer
 import statsSlice from './statsSlice'; // Import the stats reducer
 import gameReducer from './gameSlice'; // Import the stats reducer
-import creationQueue from './creations/creationQueSlice'; // Import the stats reducer
+import creationQueue from './creations/creationQueueSlice'; // Import the stats reducer
 const store = configureStore({
     reducer: {
         stats: statsSlice,

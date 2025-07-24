@@ -15,7 +15,7 @@ const creationsSlice = createSlice({
         addCreation: (state, action: PayloadAction<{ id: string, count: number }>) => {
             Object.values(state).forEach(s => {
                 const creation = s.find((c) => c.id === action.payload.id);
-                console.log('creation', creation, action.payload)
+                // console.log('creation', creation, action.payload)
                 if (!creation) return;
                 if (creation && creation.owned != null) {
                     creation.owned += action.payload.count; // Increase the number owned

@@ -15,6 +15,7 @@ export const elements: IElement[] =
                 value: 5,
             }],
             type: 'owned',
+            baseCreationTime: 1,
             requirements: []
         },
         {
@@ -31,6 +32,7 @@ export const elements: IElement[] =
                 value: 5,
             }
             ],
+            baseCreationTime: 3,
             type: 'owned',
             requirements: []
         },

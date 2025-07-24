@@ -2,9 +2,14 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addFollowers, addPower, selectFollowersPerSecond, selectPowerPerSecond } from "../store/statsSlice";
 import { selectSpeed } from "../store/gameSlice";
+import { updateProgress } from "../store/creations/creationQueSlice";
+import useProcessCompletedItems from "../components/hooks/useProcessCompletedItems";
 
 const useGameEngine = () => {
     const dispatch = useDispatch();
+
+    useProcessCompletedItems()
+
 
     const minTickInSeconds = 0.1;
 
@@ -33,6 +38,7 @@ const useGameEngine = () => {
     const updateOnTick = (deltaMod: number) => {
         dispatch(addFollowers(followersPerSecondRef.current * deltaMod));
         dispatch(addPower(powerPerSecondRef.current * deltaMod));
+        dispatch(updateProgress(deltaMod))
     }
 
     useEffect(() => {

@@ -1,80 +1,48 @@
 import React from "react";
-import { ICreation, IResource } from "../../store/creations/creationTypes";
 import { useDispatch, useSelector } from "react-redux";
+import { useResourceActions } from "../hooks/useResourceActions";
+import { ICreation } from "../../store/creations/creationTypes";
 import { RootState } from "../../store/store";
-import { addCreation } from "../../store/creations/creationSlice";
-import { addStat } from "../../store/statsSlice";
+import { useCreationAffordability } from "../hooks/useCreationAffordability";
+import { addToQueue, clearQueue } from "../../store/creations/creationQueSlice";
 
-const CreationBuy: React.FC<{ creation: ICreation, buyName?: string }> = ({ creation, buyName = 'Create' }) => {
-
+const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ creation, buyName = "Create" }) => {
     const dispatch = useDispatch();
+    const { payForResource } = useResourceActions();
 
-    const elements = useSelector((state: RootState) => state.creations.elements);
-    const stats = useSelector((state: RootState) => state.stats);
+    const queue = useSelector((state: RootState) => state.creationQueue[creation.id]?.queue || []);
+    const baseCreationTime = creation.baseCreationTime ?? 1;
+    const affordability = useCreationAffordability(creation)
+    const canAfford = affordability > 0;
 
+    const totalTimeLeft = queue.reduce(
+        (sum, item) => sum + (100 - item.progress) * baseCreationTime / 100,
+        0
+    ); // Total time left in seconds
 
-    const howManyCanAfford = () => Math.min(
-        ...creation.cost.map(cr => {
-            switch (cr.resource.type) {
-                case 'element': {
-                    const value = elements.find(o => o.id == cr.resource.resource)
-                    if (!value) return 0;
-                    return Math.floor(value?.owned / cr.value);
-                }
-
-                case "stat": {
-                    const statValue = stats[cr.resource.resource as keyof typeof stats]; // Dynamically access stats
-                    if (statValue === undefined || statValue === null) return 0;
-                    return Math.floor(statValue / cr.value);
-                }
-
-                default:
-                    console.error(`Unhandled resource type: ${cr.resource.type}`);
-                    return 0;
-
-            }
-        })
-    );
-
-    const canAfford = howManyCanAfford() > 0;
-
-    const payForResource = (count = 1) => creation.cost.forEach(o => {
-        const amount = -o.value * count
-
-        modifyResource(o.resource, amount)
-    })
-
-    const buyResource = (count = 1) => creation.effects.forEach(o => {
-        if (o.resource.mode == 'perSecond') return;
-        const amount = o.value * count
-
-        modifyResource(o.resource, amount)
-    })
-
-
-    const modifyResource = (o: IResource, amount: number) => {
-        switch (o.type) {
-            case "stat": {
-                dispatch(addStat({ amount: amount, id: o.resource }))
-                return
-            }
-            case "element": {
-                dispatch(addCreation({ count: amount, id: o.resource }))
-                return
-            }
-        }
-    }
+    const currentItem = queue[0];
+    const currentProgress = currentItem ? currentItem.progress : 0;
+    const currentTimeLeft = currentItem
+        ? ((100 - currentItem.progress) * baseCreationTime) / 100
+        : 0;
 
     const handleBuyCreation = (count = 1) => {
-        if (howManyCanAfford() < count) {
-            console.log("Not enough power to buy this creation!");
-            return
-        }
+        if (!canAfford) return;
 
-        payForResource(count);
-        buyResource(count);
+        payForResource(creation, count); // Deduct resources
+        dispatch(
+            addToQueue({
+                creationId: creation.id,
+                count,
+                baseTime: baseCreationTime,
+            })
+        );
+    };
 
-        dispatch(addCreation({ id: creation.id, count }));
+    const handleCancelCreation = () => {
+        const remainingCount = queue.length;
+        payForResource(creation, -remainingCount); // Refund resources for remaining items
+        dispatch(clearQueue(creation.id));
     };
 
     return (
@@ -95,22 +63,44 @@ const CreationBuy: React.FC<{ creation: ICreation, buyName?: string }> = ({ crea
                     ...styles.button,
                     ...(!canAfford ? styles.disabledButton : {}),
                 }}
-                onClick={() => handleBuyCreation(howManyCanAfford())}
+                onClick={() => handleBuyCreation(affordability)}
                 disabled={!canAfford}
             >
-                {buyName} {howManyCanAfford()} (max)
+                {buyName} {affordability} (max)
             </button>
+
+            {queue.length > 0 && (
+                <button
+                    style={{
+                        ...styles.button,
+                        backgroundColor: "#FF5733", // Red color for cancel
+                    }}
+                    onClick={handleCancelCreation}
+                >
+                    Cancel ({queue.length} queued)
+                </button>
+            )}
+
+            {queue.length > 0 && (
+                <div style={styles.progressContainer}>
+                    <div style={{ ...styles.progressBar, width: `${currentProgress}%` }} />
+                    <div style={styles.timeText}>
+                        {currentTimeLeft.toFixed(1)}s / {totalTimeLeft.toFixed(1)}s
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
 
 const styles: { [key: string]: React.CSSProperties } = {
     buttons: {
-        display: 'flex',
-        gap: '10px',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%'
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
     },
     button: {
         marginTop: "15px",
@@ -126,6 +116,28 @@ const styles: { [key: string]: React.CSSProperties } = {
     disabledButton: {
         backgroundColor: "#ccc",
         cursor: "not-allowed",
+    },
+    progressContainer: {
+        marginTop: "20px",
+        width: "100%",
+        height: "30px",
+        backgroundColor: "#e0e0e0",
+        borderRadius: "10px",
+        overflow: "hidden",
+        position: "relative",
+    },
+    progressBar: {
+        height: "100%",
+        backgroundColor: "#007BFF",
+        transition: "width 0.1s linear",
+    },
+    timeText: {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        fontSize: "0.9rem",
+        color: "#fff",
     },
 };
 

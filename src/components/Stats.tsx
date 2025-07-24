@@ -3,6 +3,7 @@ import { selectFollowersPerSecond, selectPowerPerSecond } from "../store/statsSl
 import ResourceDisplay from "./ResourceDisplay";
 import { getStatName } from "../utils/getResourceName";
 import { EResources } from "../store/creations/creationTypes";
+import { RootState } from "../store/store";
 
 
 const Stats = () => {
@@ -15,8 +16,21 @@ const Stats = () => {
     const divinity = useSelector((state: any) => state.stats.divinity);
     const might = useSelector((state: any) => state.stats.might);
 
+    const stats = useSelector((state: RootState) => state.creations.stats);
+
     return (
         <div style={styles.stats}>
+            {stats.map((stat, index) => (
+                <ResourceDisplay key={index}
+                    name={getStatName(stat.id)}
+                    value={stat.owned}
+                    perSecond={stat.perSecond ?? 0}
+                    icon="⚡" // Example icon
+                />
+
+            ))}
+
+
             <ResourceDisplay
                 name={getStatName(EResources.power)}
                 value={power}

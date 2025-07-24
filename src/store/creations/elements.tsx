@@ -1,22 +1,22 @@
-import { EResources, IElement } from "./creationTypes";
+import { EResources, ICreation } from "./creationTypes";
 
 //TODO array of effects
 
-export const elements: IElement[] =
+export const elements: ICreation[] =
     [
         {
             id: EResources.energy,
             name: "Energy",
             effects: [
                 {
-                    resource: { resource: EResources.divinity, type: 'stat' },
+                    resource: { resource: EResources.divinity },
                     value: 1,
                 }
             ],
             owned: 0,
             created: 0,
             cost: [{
-                resource: { resource: EResources.power, type: 'stat' },
+                resource: { resource: EResources.power },
                 value: 5,
             }],
             type: 'owned',
@@ -28,17 +28,17 @@ export const elements: IElement[] =
             name: "Light",
             effects: [
                 {
-                    resource: { resource: EResources.divinity, type: 'stat' },
+                    resource: { resource: EResources.divinity },
                     value: 5,
                 }
             ],
             owned: 0,
             created: 0,
             cost: [{
-                resource: { resource: EResources.power, type: 'stat' },
+                resource: { resource: EResources.power },
                 value: 5,
             }, {
-                resource: { resource: EResources.energy, type: 'element' },
+                resource: { resource: EResources.energy },
                 value: 5,
             }
             ],

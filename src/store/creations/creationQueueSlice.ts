@@ -1,17 +1,17 @@
 // store/creationQueueSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICreation } from "./creationTypes";
+import { EResources, ICreation } from "./creationTypes";
 
 interface CreationQueueState {
     globalSpeedMultiplier: number; // Global speed multiplier
-    creations: {
-        [creationId: ICreation["id"]]: {
-            progress: number; // Progress percentage for the current item (0-100)
-            count: number; // Number of items in the queue
-            baseCreationTime: number; // Base creation time in seconds for this creation
-            completedCount: number; // Number of completed items
-        };
-    };
+    creations:
+    Partial<Record<EResources, {
+        progress: number; // Progress percentage for the current item (0-100)
+        count: number; // Number of items in the queue
+        baseCreationTime: number; // Base creation time in seconds for this creation
+        completedCount: number; // Number of completed items
+    }>>
+    ;
 }
 
 const initialState: CreationQueueState = {
@@ -38,7 +38,9 @@ const creationQueueSlice = createSlice({
                 };
             }
 
+            //@ts-ignore
             state.creations[creationId].count += count; // Increment the count
+            //@ts-ignore
             state.creations[creationId].baseCreationTime = baseTime; // Update base creation time
         },
         updateProgress: (
@@ -48,8 +50,8 @@ const creationQueueSlice = createSlice({
             const delta = action.payload.delta;
 
             for (const creationId in state.creations) {
-                const creation = state.creations[creationId];
-                if (creation.count === 0) continue;
+                const creation = state.creations[creationId as EResources];
+                if (!creation || creation.count === 0) continue;
 
                 //instant completion
                 if (creation.baseCreationTime == 0) {
@@ -76,13 +78,16 @@ const creationQueueSlice = createSlice({
         clearQueue: (state, action: PayloadAction<ICreation["id"]>) => {
             const creationId = action.payload;
             if (state.creations[creationId]) {
+                //@ts-ignore
                 state.creations[creationId].progress = 0; // Reset progress
+                //@ts-ignore
                 state.creations[creationId].count = 0; // Clear the queue count
             }
         },
         clearCompleted: (state, action: PayloadAction<ICreation["id"]>) => {
             const creationId = action.payload;
             if (state.creations[creationId]) {
+                //@ts-ignore
                 state.creations[creationId].completedCount = 0; // Reset completed count
             }
         },

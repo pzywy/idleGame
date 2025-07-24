@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from './store';
-import { EResources, IElement } from './creations/creationTypes';
+import { EResources } from './creations/creationTypes';
 
 const initialState = {
     power: 100, // Player's current power

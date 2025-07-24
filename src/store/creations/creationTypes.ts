@@ -5,11 +5,12 @@ export enum EResources {
     might = 'might',
     energy = 'energy',
     light = 'light',
+    miracle = 'miracle',
+    temple = 'temple'
 }
 
 export type IResource = {
     resource: EResources,
-    type: 'stat' | 'element'
     mode?: 'perSecond'
 }
 
@@ -27,18 +28,15 @@ export type IResourceCost = {
 export type IResourceRequirement = Omit<IResourceCost, 'time'>
 
 export type ICreation = {
-    id: EResources | string;
+    id: EResources;
     name: string;
     effects: IResourceEffect[],
     owned: number;
     created: number;
     cost: IResourceCost[];
+    requirements?: IResourceRequirement[]
     type?: 'owned' | 'usable'
     icon?: string;
     baseCreationTime?: number
-};
-
-export type IElement = ICreation & {
-    type: 'owned';
-    requirements: IResourceRequirement[]
+    perSecond?: number
 };

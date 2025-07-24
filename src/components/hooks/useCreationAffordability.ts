@@ -11,27 +11,15 @@ import { RootState } from "../../store/store";
  */
 export function useCreationAffordability(creation: ICreation): number {
     // Access Redux state using selectors
-    const elements = useSelector((state: RootState) => state.creations.elements);
-    const stats = useSelector((state: RootState) => state.stats);
+    const creations = useSelector((state: RootState) => Object.values(state.creations).flat());
+
 
     // Calculate the affordability based on creation cost
     return Math.min(
         ...creation.cost.map((cr) => {
-            switch (cr.resource.type) {
-                case "element": {
-                    const value = elements.find((o) => o.id === cr.resource.resource);
-                    if (!value) return 0;
-                    return Math.floor(value?.owned / cr.value);
-                }
-                case "stat": {
-                    const statValue = stats[cr.resource.resource as keyof typeof stats]; // Dynamically access stats
-                    if (statValue === undefined || statValue === null) return 0;
-                    return Math.floor(statValue / cr.value);
-                }
-                default:
-                    console.error(`Unhandled resource type: ${cr.resource.type}`);
-                    return 0;
-            }
+            const value = creations.find((o) => o.id === cr.resource.resource);
+            if (!value) return 0;
+            return Math.floor(value?.owned / cr.value);
         })
     );
 }

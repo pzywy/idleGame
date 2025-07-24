@@ -5,29 +5,29 @@ import { ICreation, EResources } from "./creationTypes";
 export const creationList: ICreation[] =
     [
         {
-            id: "cr-miracle",
+            id: EResources.miracle,
             name: "Miracle",
             effects: [
-                { resource: { resource: EResources.followers, type: 'stat' }, value: 5 }
+                { resource: { resource: EResources.followers, }, value: 5 }
             ],
             owned: 0,
             created: 0,
             cost: [{
-                resource: { resource: EResources.power, type: 'stat' },
+                resource: { resource: EResources.power, },
                 value: 10,
             }],
             type: 'usable'
         },
         {
-            id: "cr-temple",
+            id: EResources.temple,
             name: "Temple",
             effects: [
-                { resource: { resource: EResources.followers, mode: 'perSecond', type: 'stat' }, value: 1 }
+                { resource: { resource: EResources.followers, mode: 'perSecond', }, value: 1 }
             ],
             owned: 0,
             created: 0,
             cost: [{
-                resource: { resource: EResources.followers, type: 'stat' },
+                resource: { resource: EResources.followers, },
                 value: 10,
             }],
             type: 'owned'

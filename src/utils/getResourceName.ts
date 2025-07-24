@@ -10,10 +10,6 @@ export const getResourceName = (resource: IResource): string => {
 };
 
 function getResource(resource: IResource) {
-    if (resource.type == 'stat') {
-        return getStatName(resource.resource)
-    }
-
     const r = allResources.find(o => o.id == resource.resource)
     if (r) return r.name
 

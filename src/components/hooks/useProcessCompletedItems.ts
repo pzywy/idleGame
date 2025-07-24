@@ -4,6 +4,7 @@ import { useResourceActions } from "./useResourceActions";
 import { RootState } from "../../store/store";
 import { clearCompleted } from "../../store/creations/creationQueueSlice";
 import { allResources } from "../../store/allResources";
+import { EResources } from "../../store/creations/creationTypes";
 
 const useProcessCompletedItems = () => {
     const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const useProcessCompletedItems = () => {
 
     const completedItems = useSelector((state: RootState) =>
         Object.entries(state.creationQueue.creations).flatMap(([creationId, data]) =>
-            ({ id: creationId, amount: data.completedCount })
+            ({ id: creationId as EResources, amount: data.completedCount })
         ).filter(o => o.amount > 0)
     );
 

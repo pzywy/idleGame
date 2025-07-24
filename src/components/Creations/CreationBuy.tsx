@@ -13,7 +13,7 @@ const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ crea
     const { payForResource } = useResourceActions();
 
     //add creation before?
-    const queue = useSelector((state: RootState) => state.creationQueue.creations[creation.id] || {});
+    const queue = useSelector((state: RootState) => state.creationQueue.creations[creation.id]);
 
     const creationSpeedMod = useSelector((state: RootState) => state.creationQueue.globalSpeedMultiplier);
     const gameSpeed = useSelector((state: RootState) => state.game.speed);
@@ -22,13 +22,13 @@ const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ crea
     const affordability = useCreationAffordability(creation);
     const canAfford = affordability > 0;
 
-    const currentProgress = queue.count > 0 ? queue.progress : 0;
-    const currentTimeLeft = queue.count > 0
+    const currentProgress = queue ? queue.count > 0 ? queue.progress : 0 : 0;
+    const currentTimeLeft = queue ? queue.count > 0
         ? ((100 - queue.progress) * queue.baseCreationTime) / 100 / creationSpeedMod / gameSpeed
-        : 0;
+        : 0 : 0
 
     const totalTimeLeft =
-        queue.baseCreationTime * (queue.count - 1) / creationSpeedMod / gameSpeed + currentTimeLeft;
+        queue ? queue.baseCreationTime * (queue.count - 1) / creationSpeedMod / gameSpeed + currentTimeLeft : 0
 
     const handleBuyCreation = (count = 1) => {
         if (!canAfford) return;
@@ -44,7 +44,7 @@ const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ crea
     };
 
     const handleCancelCreation = () => {
-        const remainingCount = queue.count;
+        const remainingCount = queue?.count ?? 0;
         payForResource(creation, -remainingCount); // Refund resources for remaining items
         dispatch(clearQueue(creation.id));
     };
@@ -73,7 +73,7 @@ const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ crea
                 {buyName} {formatNumber(affordability)} (max)
             </button>
 
-            {queue.count > 0 && (
+            {queue && queue.count > 0 && (
                 <button
                     style={{
                         ...styles.button,
@@ -81,11 +81,11 @@ const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ crea
                     }}
                     onClick={handleCancelCreation}
                 >
-                    Cancel ({formatNumber(queue.count)} queued)
+                    Cancel ({formatNumber(queue.count ?? 0)} queued)
                 </button>
             )}
 
-            {queue.count > 0 && (
+            {queue && queue.count > 0 && (
                 <div style={styles.progressContainer}>
                     <div
                         style={{

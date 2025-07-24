@@ -1,15 +1,16 @@
 import React from "react";
 import { getResourceName } from "../../utils/getResourceName";
 import { formatNumber } from "../../utils/formatNumber";
-import { IResourceEffect } from "../../store/creations/creationTypes";
+import { ICreation, IResourceEffect } from "../../store/creations/creationTypes";
+import { calculateResourceValue } from "../../utils/formatFunctions";
 
-const CreationEffects: React.FC<{ effects: IResourceEffect[], count?: number }> = ({ effects, count = 1 }) => {
+const CreationEffects: React.FC<{ creation: ICreation, count?: number }> = ({ creation, count = 1 }) => {
     return (
         <div>
-            {effects.map((effect, index) => (
+            {creation.effects.map((effect, index) => (
                 <div style={styles.stat} key={index}>
                     <strong>{getResourceName(effect.resource)}: </strong>
-                    <span>{formatNumber(effect.value * count)}</span>
+                    <span>{formatNumber((calculateResourceValue(effect.value, creation)) * count)}</span>
                 </div>
             ))}
         </div>

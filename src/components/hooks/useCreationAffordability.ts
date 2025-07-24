@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { ICreation } from "../../store/creations/creationTypes";
 import { RootState } from "../../store/store";
+import { calculateResourceValue } from "../../utils/formatFunctions";
 
 //TODO in future we could make all previous needed items too
 
@@ -19,7 +20,10 @@ export function useCreationAffordability(creation: ICreation): number {
         ...creation.cost.map((cr) => {
             const value = creations.find((o) => o.id === cr.resource.resource);
             if (!value) return 0;
-            return Math.floor(value?.owned / cr.value);
+
+            const creationValue = calculateResourceValue(cr.value, creation)
+
+            return Math.floor(value?.owned / creationValue);
         })
     );
 }

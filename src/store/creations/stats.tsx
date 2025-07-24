@@ -1,3 +1,4 @@
+import { FormatFunction } from "../../utils/formatFunctions";
 import { EResources, ICreation } from "./creationTypes";
 
 //TODO array of effects
@@ -19,13 +20,17 @@ export const stats: ICreation[] =
         {
             id: EResources.divinity,
             name: "Divinity",
-            effects: [{ resource: { resource: EResources.power, mode: 'perSecond' }, value: 0.1 }],
+            effects: [
+                { resource: { resource: EResources.power, mode: 'perSecond' }, value: 0.1 },
+                { resource: { resource: EResources.creationSpeed, mode: 'bonus' }, value: FormatFunction.log10Owned }
+            ],
             owned: 0,
             created: 0,
             cost: [],
             type: 'owned',
             baseCreationTime: 0,
-            requirements: []
+            requirements: [],
+            icon: '⚡'
         },
         {
             id: EResources.followers,
@@ -36,7 +41,8 @@ export const stats: ICreation[] =
             cost: [],
             type: 'owned',
             baseCreationTime: 0,
-            requirements: []
+            requirements: [],
+            icon: '👥'
         },
         {
             id: EResources.might,
@@ -47,6 +53,7 @@ export const stats: ICreation[] =
             cost: [],
             type: 'owned',
             baseCreationTime: 0,
-            requirements: []
+            requirements: [],
+            icon: '⚡'
         },
     ]

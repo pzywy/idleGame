@@ -13,7 +13,7 @@ const Creation: React.FC<{ creation: ICreation }> = ({ creation }) => {
             <CreationHeader creation={creation} />
 
             <h4>Effects:</h4>
-            <CreationEffects effects={creation.effects} />
+            <CreationEffects creation={creation} />
 
 
             <h4>Created</h4>
@@ -21,7 +21,7 @@ const Creation: React.FC<{ creation: ICreation }> = ({ creation }) => {
 
 
             <h4>Cost:</h4>
-            <CreationCost costs={creation.cost} />
+            <CreationCost creation={creation} />
 
             <CreationBuy creation={creation} />
 

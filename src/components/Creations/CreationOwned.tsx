@@ -11,7 +11,7 @@ const CreationOwned: React.FC<{ creation: ICreation, name?: string }> = ({ creat
                     <strong>{name}:</strong> {formatNumber(creation.owned, 0)}
                 </p>
             )}
-            <CreationEffects effects={creation.effects} count={creation.owned} />
+            <CreationEffects creation={creation} count={creation.owned} />
         </div>
     );
 };

@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addFollowers, addPower, selectFollowersPerSecond, selectPowerPerSecond } from "../store/statsSlice";
 import { selectSpeed } from "../store/gameSlice";
 import { setGlobalSpeedMultiplier, updateProgress } from "../store/creations/creationQueueSlice";
 import useProcessCompletedItems from "../components/hooks/useProcessCompletedItems";
 import { RootState } from "../store/store";
-import { ICreation, IResourceEffect } from "../store/creations/creationTypes";
-import { addCreation, updateCreationPerSecond } from "../store/creations/creationSlice";
+import { EResources, ICreation, IResourceEffect } from "../store/creations/creationTypes";
+import { addCreation, setCreationCount, setCreationEffectiveValue, updateCreationPerSecond } from "../store/creations/creationSlice";
+import { calculateResourceValue } from "../utils/formatFunctions";
 
 // Constants
 const MIN_TICK_IN_SECONDS = 0.1;
@@ -18,28 +18,20 @@ const useGameEngine = () => {
     useProcessCompletedItems();
 
     // Refs to store dynamic values for calculations
-    const powerPerSecondRef = useRef<number>(0);
-    const followersPerSecondRef = useRef<number>(0);
     const lastUpdateRef = useRef<number>(performance.now());
     const speedRef = useRef<number>(1);
-    const divinity = useSelector((state: RootState) => state.stats.divinity);
 
-
-    const creationSpeed = useRef<number>(1);
     const creationsWithEffectsRef = useRef<ICreation[]>([]);
     const creationsRef = useRef<ICreation[]>([]);
 
     const creations = useSelector((state: RootState) => Object.values(state.creations).flat());
 
     const creationsWithEffects = useSelector((state: RootState) => Object.values(state.creations)
-        .flatMap((o: ICreation[]) => o
-            .filter(c => c.owned > 0)))
-        .map(o => ({ ...o, effects: o.effects.filter(o => o.resource.mode == 'perSecond') }))
+        .flatMap((o: ICreation[]) => o.filter(c => c.owned > 0)))
+        .map(o => ({ ...o, effects: o.effects.filter(o => !!o.resource.mode) }))
         .filter(c => c.effects && c.effects.length > 0);
 
-    // Selectors to retrieve values from Redux store
-    const powerPerSecond = useSelector(selectPowerPerSecond);
-    const followersPerSecond = useSelector(selectFollowersPerSecond);
+
     const speedSelected = useSelector(selectSpeed);
 
 
@@ -47,34 +39,49 @@ const useGameEngine = () => {
     useEffect(() => {
         creationsWithEffectsRef.current = creationsWithEffects;
         creationsRef.current = creations;
-        powerPerSecondRef.current = powerPerSecond;
-        followersPerSecondRef.current = followersPerSecond;
         speedRef.current = speedSelected;
-        creationSpeed.current = Math.log10(divinity);
-    }, [powerPerSecond, followersPerSecond, speedSelected, divinity, creationsWithEffects]);
+    }, [speedSelected, creationsWithEffects]);
 
     // Function to handle updates during each tick
     const handleTickUpdate = (delta: number) => {
         const deltaMod = delta * speedRef.current;
 
-        // Update followers and power based on the current delta time
-        dispatch(addFollowers(followersPerSecondRef.current * deltaMod));
-        dispatch(addPower(powerPerSecondRef.current * deltaMod));
-
 
         creationsRef.current.forEach(creation => {
             //calculate perSecond for Each
-            const perSecond = creationsWithEffectsRef.current.reduce((acc, curr) => {
-                // console.log('curr', curr)
-                const allEffectsValue = curr.effects.filter(o => o.resource.resource == creation.id).map(o => o.value)
-                // console.log('allEffectsValue', allEffectsValue)
-                const finalValue = allEffectsValue.reduce((acc2, curr2) => acc2 + curr2 * curr.owned, 0)
-                // console.log('finalValue', finalValue)
-                return acc + finalValue
+
+            let perSecond = 0;
+            // let bonusPerSec = 1;
+            let bonus: number = 0;
+
+            creationsWithEffectsRef.current.forEach((creationWithEffect) => {
+                const allEffects = creationWithEffect.effects.filter(o => o.resource.resource == creation.id)
+                // console.log('allEffects', allEffects)
+
+                perSecond += allEffects.filter(o => o.resource.mode == 'perSecond')
+                    .map(o => calculateResourceValue(o.value, creationWithEffect))
+                    .reduce((acc, cur) => acc + cur * creationWithEffect.owned, 0)
+
+                //TODO implement
+                // bonusPerSec += allEffects.filter(o => o.resource.mode == 'bonusPerSec').map(o => o.value)
+                //     .reduce((acc, cur) => acc + cur * creationWithEffect.owned, 0)
+
+                bonus += allEffects.filter(o => o.resource.mode == 'bonus')
+                    .map(o => calculateResourceValue(o.value, creationWithEffect))
+                    .reduce((acc, cur) => acc + cur * creationWithEffect.owned, 0)
             }, 0)
+
+            //bonus apply only when element has base value
+            if (bonus > 0) {
+                // console.log('bonus', bonus)
+                const value = creation.owned * (1 + bonus)
+                // console.log('value', value)
+                dispatch(setCreationEffectiveValue({ id: creation.id, count: value }));
+            } else
+                dispatch(setCreationEffectiveValue({ id: creation.id, count: creation.owned }));
+
             if (perSecond < 0) return
 
-            // console.log('perSecond', perSecond)
 
             dispatch(updateCreationPerSecond({ id: creation.id, count: perSecond }));
 
@@ -83,12 +90,14 @@ const useGameEngine = () => {
         })
 
 
+        const creationSpeed = creationsRef.current.find(o => o.id == EResources.creationSpeed)?.effectiveValue ?? 1
+
 
         // Update progress for creation queues
         dispatch(updateProgress({ delta: deltaMod }));
 
         // console.log('speedMod', speedMod)
-        dispatch(setGlobalSpeedMultiplier(Math.max(1, creationSpeed.current)))
+        dispatch(setGlobalSpeedMultiplier(Math.max(1, creationSpeed)))
 
         // TODO: Add logic to update base speed or other stats if needed
     };

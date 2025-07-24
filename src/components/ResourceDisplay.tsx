@@ -4,6 +4,7 @@ import { formatNumber } from "../utils/formatNumber";
 interface ResourceDisplayProps {
     name: string;
     value: number;
+    effectiveValue?: number;
     perSecond: number;
     icon?: React.ReactNode; // Optional icon for the resource
     decimalPlaces?: number; // Number of decimal places for formatting
@@ -13,6 +14,7 @@ interface ResourceDisplayProps {
 const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
     name,
     value,
+    effectiveValue,
     perSecond,
     icon,
     decimalPlaces = 3,
@@ -23,7 +25,12 @@ const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
             {icon && <div style={styles.icon}>{icon}</div>}
             <div style={styles.info}>
                 <span style={styles.name}>{name}: </span>
-                <div style={styles.value}>{formatNumber(value ?? 0, decimalPlaces, decimalPlaces0)}</div>
+                <div style={styles.value}>
+                    {formatNumber(value ?? 0, decimalPlaces, decimalPlaces0)}
+                    {!!effectiveValue && <span style={styles.value}>({formatNumber(effectiveValue ?? 0, decimalPlaces, decimalPlaces0)})</span>}
+                </div>
+
+
             </div>
             {perSecond > 0 &&
                 <div style={styles.perSecond}>

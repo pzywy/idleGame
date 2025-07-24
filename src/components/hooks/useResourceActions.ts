@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { ICreation, IResource } from "../../store/creations/creationTypes";
-import { addStat } from "../../store/statsSlice";
 import { addCreation } from "../../store/creations/creationSlice";
+import { calculateResourceValue } from "../../utils/formatFunctions";
 
 
 /**
@@ -25,7 +25,8 @@ export const useResourceActions = () => {
     const buyResource = (creation: ICreation, count = 1) => {
         creation.effects.forEach((effect) => {
             if (effect.resource.mode === "perSecond") return;
-            const amount = effect.value * count;
+            const effectValue = calculateResourceValue(effect.value, creation)
+            const amount = effectValue * count;
             modifyResource(effect.resource, amount);
         });
         dispatch(addCreation({ id: creation.id, count }));

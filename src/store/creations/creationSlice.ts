@@ -3,11 +3,13 @@ import { creationList } from './creations';
 import { elements } from './elements';
 import { stats } from './stats';
 import { EResources } from './creationTypes';
+import { utilsCreations } from './utilsCreations';
 
 const initialState = {
     creations: creationList,
     elements: elements,
-    stats: stats
+    stats: stats,
+    utils: utilsCreations
 }
 
 const creationsSlice = createSlice({
@@ -26,6 +28,22 @@ const creationsSlice = createSlice({
                 }
             })
         },
+        setCreationCount: (state, action: PayloadAction<{ id: EResources, count: number }>) => {
+            Object.values(state).forEach(s => {
+                const creation = s.find((c) => c.id === action.payload.id);
+                // console.log('creation', creation, action.payload)
+                if (!creation) return;
+                creation.owned = action.payload.count
+            })
+        },
+        setCreationEffectiveValue: (state, action: PayloadAction<{ id: EResources, count: number }>) => {
+            Object.values(state).forEach(s => {
+                const creation = s.find((c) => c.id === action.payload.id);
+                // console.log('creation', creation, action.payload)
+                if (!creation) return;
+                creation.effectiveValue = action.payload.count
+            })
+        },
         updateCreationPerSecond: (state, action: PayloadAction<{ id: EResources, count: number }>) => {
             Object.values(state).forEach(s => {
                 const creation = s.find((c) => c.id === action.payload.id);
@@ -37,5 +55,5 @@ const creationsSlice = createSlice({
     },
 });
 
-export const { addCreation, updateCreationPerSecond } = creationsSlice.actions;
+export const { addCreation, updateCreationPerSecond, setCreationCount, setCreationEffectiveValue } = creationsSlice.actions;
 export default creationsSlice.reducer;

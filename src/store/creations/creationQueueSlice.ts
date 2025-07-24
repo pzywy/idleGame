@@ -2,16 +2,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICreation } from "./creationTypes";
 
-interface QueueItem {
-    id: number; // Unique ID for the queue
-    progress: number; // Progress percentage for the current item (0-100)
-    count: number; // Number of items in the queue
-}
-
-interface CompletedItem {
-    creationId: ICreation["id"]; // ID of the creation type
-}
-
 interface CreationQueueState {
     globalSpeedMultiplier: number; // Global speed multiplier
     creations: {
@@ -65,7 +55,7 @@ const creationQueueSlice = createSlice({
                 if (creation.baseCreationTime == 0) {
                     creation.completedCount = creation.count
                     creation.count = 0;
-                    continue; 
+                    continue;
                 }
 
                 const adjustedDelta = delta * state.globalSpeedMultiplier; // Adjust delta by the global speed multiplier

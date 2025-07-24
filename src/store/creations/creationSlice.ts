@@ -19,6 +19,7 @@ const creationsSlice = createSlice({
                 if (!creation) return;
                 if (creation && creation.owned != null) {
                     creation.owned += action.payload.count; // Increase the number owned
+                    creation.created += action.payload.count; // Increase the number owned
                 }
             })
         },

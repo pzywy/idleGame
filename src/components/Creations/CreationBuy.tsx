@@ -6,30 +6,29 @@ import { RootState } from "../../store/store";
 import { useCreationAffordability } from "../hooks/useCreationAffordability";
 import { addToQueue, clearQueue } from "../../store/creations/creationQueueSlice";
 import { formatNumber } from "../../utils/formatNumber";
-import { formatTime, formatTimeDetailed } from "../../utils/formatTime";
+import { formatTimeDetailed } from "../../utils/formatTime";
 
 const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ creation, buyName = "Create" }) => {
     const dispatch = useDispatch();
     const { payForResource } = useResourceActions();
 
+    //add creation before?
     const queue = useSelector((state: RootState) => state.creationQueue.creations[creation.id] || {});
 
     const creationSpeedMod = useSelector((state: RootState) => state.creationQueue.globalSpeedMultiplier);
     const gameSpeed = useSelector((state: RootState) => state.game.speed);
 
     const baseCreationTime = creation.baseCreationTime ?? 0;
-    const affordability = useCreationAffordability(creation)
+    const affordability = useCreationAffordability(creation);
     const canAfford = affordability > 0;
-
-
-
 
     const currentProgress = queue.count > 0 ? queue.progress : 0;
     const currentTimeLeft = queue.count > 0
         ? ((100 - queue.progress) * queue.baseCreationTime) / 100 / creationSpeedMod / gameSpeed
         : 0;
 
-    const totalTimeLeft = queue.baseCreationTime * (queue.count - 1) / creationSpeedMod / gameSpeed + currentTimeLeft;
+    const totalTimeLeft =
+        queue.baseCreationTime * (queue.count - 1) / creationSpeedMod / gameSpeed + currentTimeLeft;
 
     const handleBuyCreation = (count = 1) => {
         if (!canAfford) return;
@@ -88,7 +87,12 @@ const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ crea
 
             {queue.count > 0 && (
                 <div style={styles.progressContainer}>
-                    <div style={{ ...styles.progressBar, width: `${currentProgress}%` }} />
+                    <div
+                        style={{
+                            ...styles.currentProgressBar,
+                            width: `${currentProgress}%`,
+                        }}
+                    />
                     <div style={styles.timeText}>
                         {formatTimeDetailed(currentTimeLeft)} / {formatTimeDetailed(totalTimeLeft)}
                     </div>
@@ -131,10 +135,19 @@ const styles: { [key: string]: React.CSSProperties } = {
         overflow: "hidden",
         position: "relative",
     },
-    progressBar: {
+    fullProgressBar: {
+        position: "absolute",
         height: "100%",
-        backgroundColor: "#007BFF",
-        transition: "width 0.1s linear",
+        backgroundColor: "#0056b3", // Darker blue for full progress
+        zIndex: 1,
+        transition: "width 0.3s linear", // Smooth transition for full progress
+    },
+    currentProgressBar: {
+        position: "absolute",
+        height: "100%",
+        backgroundColor: "#007BFF", // Lighter blue for current progress
+        zIndex: 2,
+        transition: "width 0.1s linear", // Fast updates for current progress
     },
     timeText: {
         position: "absolute",
@@ -143,6 +156,7 @@ const styles: { [key: string]: React.CSSProperties } = {
         transform: "translate(-50%, -50%)",
         fontSize: "0.9rem",
         color: "#fff",
+        zIndex: 3,
     },
 };
 

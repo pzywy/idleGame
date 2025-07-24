@@ -1,4 +1,4 @@
-import { ICreation, EResources, IElement } from "./creationTypes";
+import { EResources, IElement } from "./creationTypes";
 
 //TODO array of effects
 
@@ -14,6 +14,7 @@ export const elements: IElement[] =
                 }
             ],
             owned: 0,
+            created: 0,
             cost: [{
                 resource: { resource: EResources.power, type: 'stat' },
                 value: 5,
@@ -32,6 +33,7 @@ export const elements: IElement[] =
                 }
             ],
             owned: 0,
+            created: 0,
             cost: [{
                 resource: { resource: EResources.power, type: 'stat' },
                 value: 5,

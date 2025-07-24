@@ -31,6 +31,7 @@ export type ICreation = {
     name: string;
     effects: IResourceEffect[],
     owned: number;
+    created: number;
     cost: IResourceCost[];
     type?: 'owned' | 'usable'
     icon?: string;

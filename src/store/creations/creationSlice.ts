@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { creationList } from './creationList';
+import { creationList } from './creations';
 import { elements } from './elements';
 
 const initialState = {

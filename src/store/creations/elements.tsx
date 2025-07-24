@@ -10,7 +10,7 @@ export const elements: IElement[] =
             effects: [
                 {
                     resource: { resource: EResources.divinity, type: 'stat' },
-                    value: 5,
+                    value: 1,
                 }
             ],
             owned: 0,
@@ -26,6 +26,10 @@ export const elements: IElement[] =
             id: EResources.light,
             name: "Light",
             effects: [
+                {
+                    resource: { resource: EResources.divinity, type: 'stat' },
+                    value: 5,
+                }
             ],
             owned: 0,
             cost: [{

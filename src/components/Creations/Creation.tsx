@@ -1,5 +1,4 @@
 import React from "react";
-import { formatNumber } from "../../utils/formatNumber";
 import CreationCost from "./CreationCost";
 import CreationEffects from "./CreationEffects";
 import { ICreation } from "../../store/creations/creationTypes";

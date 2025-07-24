@@ -24,15 +24,26 @@ const Game = () => {
 
     return (
         <div>
-            <p>Speed: {speed}</p>
-            <button onClick={increaseSpeed}>Increase Speed</button>
-            <button onClick={decreaseSpeed}>Decrease Speed</button>
+            <div style={styles.speed}>
+                <p>Speed: {speed}</p>
+                <button onClick={increaseSpeed}>Increase Speed</button>
+                <button onClick={decreaseSpeed}>Decrease Speed</button>
 
+            </div>
             <Stats />
             <Elements />
             <Creations />
         </div>
     );
+};
+
+const styles: { [key: string]: React.CSSProperties } = {
+    speed: {
+        display: 'flex',
+        position: 'absolute',
+        top: 0,
+        right: 0,
+    },
 };
 
 export default Game;

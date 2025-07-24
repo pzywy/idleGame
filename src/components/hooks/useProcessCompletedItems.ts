@@ -17,7 +17,7 @@ const useProcessCompletedItems = () => {
 
     useEffect(() => {
         if (completedItems.length > 0) {
-            console.log('completedItems', completedItems)
+            // console.log('completedItems', completedItems)
             completedItems.forEach(({ id, amount }) => {
                 const creation = allResources.find(o => o.id == id)
                 if (creation) {

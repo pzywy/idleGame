@@ -6,23 +6,30 @@ import { RootState } from "../../store/store";
 import { useCreationAffordability } from "../hooks/useCreationAffordability";
 import { addToQueue, clearQueue } from "../../store/creations/creationQueueSlice";
 import { formatNumber } from "../../utils/formatNumber";
+import { formatTime, formatTimeDetailed } from "../../utils/formatTime";
 
 const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ creation, buyName = "Create" }) => {
     const dispatch = useDispatch();
     const { payForResource } = useResourceActions();
 
     const queue = useSelector((state: RootState) => state.creationQueue.creations[creation.id] || {});
+
+    const creationSpeedMod = useSelector((state: RootState) => state.creationQueue.globalSpeedMultiplier);
+    const gameSpeed = useSelector((state: RootState) => state.game.speed);
+
     const baseCreationTime = creation.baseCreationTime ?? 0;
     const affordability = useCreationAffordability(creation)
     const canAfford = affordability > 0;
 
-    const totalTimeLeft = queue.baseCreationTime * queue.count;
+
 
 
     const currentProgress = queue.count > 0 ? queue.progress : 0;
     const currentTimeLeft = queue.count > 0
-        ? ((100 - queue.progress) * queue.baseCreationTime) / 100
+        ? ((100 - queue.progress) * queue.baseCreationTime) / 100 / creationSpeedMod / gameSpeed
         : 0;
+
+    const totalTimeLeft = queue.baseCreationTime * (queue.count - 1) / creationSpeedMod / gameSpeed + currentTimeLeft;
 
     const handleBuyCreation = (count = 1) => {
         if (!canAfford) return;
@@ -83,7 +90,7 @@ const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ crea
                 <div style={styles.progressContainer}>
                     <div style={{ ...styles.progressBar, width: `${currentProgress}%` }} />
                     <div style={styles.timeText}>
-                        {formatNumber(currentTimeLeft)}s / {formatNumber(totalTimeLeft)}s
+                        {formatTimeDetailed(currentTimeLeft)} / {formatTimeDetailed(totalTimeLeft)}
                     </div>
                 </div>
             )}

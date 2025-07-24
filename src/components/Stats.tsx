@@ -16,7 +16,7 @@ const Stats = () => {
     const might = useSelector((state: any) => state.stats.might);
 
     return (
-        <div>
+        <div style={styles.stats}>
             <ResourceDisplay
                 name={getStatName(EResources.power)}
                 value={power}
@@ -45,6 +45,16 @@ const Stats = () => {
             />
         </div>
     );
+};
+
+
+const styles: { [key: string]: React.CSSProperties } = {
+    stats: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: '5px',
+        flexWrap: 'wrap'
+    },
 };
 
 export default Stats;

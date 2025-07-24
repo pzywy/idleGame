@@ -6,6 +6,8 @@ export const formatNumber = (value: number, decimalPlaces: number = 2, decimalPl
     const tier = Math.floor(Math.log10(Math.abs(value)) / 3); // Determines the suffix tier (e.g., K, M, B)
 
     if (tier <= 0) {
+        if (value - Math.floor(value) == 0)
+            return value.toFixed(0)
         // No suffix needed
         return value.toFixed(decimalPlacesTier0);
     }

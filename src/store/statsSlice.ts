@@ -46,7 +46,8 @@ const statsSlice = createSlice({
 export const selectPowerPerSecond = (state: RootState) => {
     //TODO bonuses
     const fromFollowers = state.stats.followers * state.stats.powerPerFollower;
-    return fromFollowers;
+    const fromDivinity = state.stats.divinity > 0 ? Math.log10(state.stats.divinity) : 0
+    return fromFollowers + fromDivinity;
 };
 
 export const selectFollowersPerSecond = (state: RootState): number => {

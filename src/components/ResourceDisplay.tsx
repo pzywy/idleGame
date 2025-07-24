@@ -23,11 +23,13 @@ const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
                 <span style={styles.name}>{name}: </span>
                 <div style={styles.value}>{formatNumber(value ?? 0, decimalPlaces)}</div>
             </div>
-            <div style={styles.perSecond}>
-                {perSecond >= 0
-                    ? `+${formatNumber(perSecond ?? 0, decimalPlaces)}/s`
-                    : `${formatNumber(perSecond ?? 0, decimalPlaces)}/s`}
-            </div>
+            {perSecond > 0 &&
+                <div style={styles.perSecond}>
+                    {perSecond > 0
+                        ? `+${formatNumber(perSecond ?? 0, decimalPlaces)}/s`
+                        : `${formatNumber(perSecond ?? 0, decimalPlaces)}/s`}
+                </div>
+            }
         </div>
     );
 };

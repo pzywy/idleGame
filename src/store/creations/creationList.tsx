@@ -1,34 +1,33 @@
-import { ICreation, IStats } from "./creationTypes";
+import { ICreation, EResources } from "./creationTypes";
 
 //TODO array of effects
 
-export const creationList = {
-    creations: [
+export const creationList: ICreation[] =
+    [
         {
-            id: "miracle",
+            id: "cr-miracle",
             name: "Miracle",
             effects: [
-                { resource: IStats.followers, value: 5 }
+                { resource: { resource: EResources.followers, type: 'stat' }, value: 5 }
             ],
             owned: 0,
             cost: [{
-                resource: IStats.power,
+                resource: { resource: EResources.power, type: 'stat' },
                 value: 10,
             }],
             type: 'usable'
         },
         {
-            id: "temple",
+            id: "cr-temple",
             name: "Temple",
             effects: [
-                { resource: IStats.followersPS, value: 1 }
+                { resource: { resource: EResources.followers, mode: 'perSecond', type: 'stat' }, value: 1 }
             ],
             owned: 0,
             cost: [{
-                resource: IStats.followers,
+                resource: { resource: EResources.followers, type: 'stat' },
                 value: 10,
             }],
             type: 'owned'
         },
-    ] as ICreation[],
-};
+    ]

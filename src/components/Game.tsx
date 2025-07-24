@@ -3,6 +3,7 @@ import Creations from "./Creations";
 import { useDispatch, useSelector } from "react-redux";
 import useGameEngine from "../features/gameEngine";
 import { selectSpeed, setSpeed } from "../store/gameSlice";
+import Elements from "./Elements";
 
 const Game = () => {
     const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const Game = () => {
             <button onClick={decreaseSpeed}>Decrease Speed</button>
 
             <Stats />
+            <Elements />
             <Creations />
         </div>
     );

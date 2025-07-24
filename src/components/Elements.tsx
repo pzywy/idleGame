@@ -4,17 +4,17 @@ import { RootState } from "../store/store";
 import Creation from "./Creations/Creation";
 
 
-const Creations = () => {
-    const creations = useSelector((state: RootState) => state.creations.creations);
+const Elements = () => {
+    const elements = useSelector((state: RootState) => state.creations.elements);
 
     return (
         <div style={styles.container}>
             <h2 style={styles.heading}>Creations</h2>
             <div style={styles.grid}>
-                {creations.map((creation) => (
+                {elements.map((element) => (
                     <Creation
-                        key={creation.id}
-                        creation={creation}
+                        key={element.id}
+                        creation={element}
                     />
                 ))}
             </div>
@@ -41,4 +41,4 @@ const styles: { [key: string]: React.CSSProperties } = {
     },
 };
 
-export default Creations;
+export default Elements;

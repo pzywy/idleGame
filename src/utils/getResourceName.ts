@@ -1,17 +1,37 @@
-import { IStats } from "../store/creations/creationTypes";
+import { creationList } from "../store/creations/creationList";
+import { EResources, IResource } from "../store/creations/creationTypes";
+import { elements } from "../store/creations/elements";
+const allResources = [...elements, ...creationList]
+export const getResourceName = (resource: IResource): string => {
+    const perSecond = resource.mode == 'perSecond'
+    const perSecondString = perSecond ? ' Per Second' : ''
 
+    return getResource(resource) + perSecondString
 
-export const getResourceName = (resource: IStats): string => {
-    switch (resource) {
-        case IStats.followers:
-            return "Followers";
-        case IStats.followersPS:
-            return "Followers Per Second";
-        case IStats.power:
-            return "Power";
-        case IStats.powerPs:
-            return "Power Per Second";
-        default:
-            return "Unknown Resource";
-    }
 };
+
+function getResource(resource: IResource) {
+    if (resource.type == 'stat') {
+        return getStatName(resource.resource)
+    }
+
+    const r = allResources.find(o => o.id == resource.resource)
+    if (r) return r.name
+
+    return `Unknown resource ${resource.resource}`;
+}
+
+export function getStatName(resource: EResources) {
+    switch (resource) {
+        case EResources.followers:
+            return "Followers";
+        case EResources.power:
+            return "Power";
+        case EResources.divinity:
+            return "Divinity";
+        case EResources.might:
+            return "Might";
+        default:
+            return `Unknown stat ${resource}`;
+    }
+}

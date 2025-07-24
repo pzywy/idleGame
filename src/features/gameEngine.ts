@@ -15,7 +15,7 @@ const useGameEngine = () => {
 
     const powerPerSecond = useSelector(selectPowerPerSecond);
     const followersPerSecond = useSelector(selectFollowersPerSecond);
-    const speedSelected = useSelector(selectSpeed); // Get speed from Redux
+    const speedSelected = useSelector(selectSpeed);
 
     useEffect(() => {
         powerPerSecondRef.current = powerPerSecond;
@@ -46,14 +46,8 @@ const useGameEngine = () => {
             // console.log('tick')
 
             lastUpdateRef.current = timestamp;
-
             const deltaMod = elapsed * speed.current
-
             updateOnTick(deltaMod)
-
-            // dispatch(addFollowers(followersPerSecondRef.current * deltaMod));
-            // dispatch(addPower(powerPerSecondRef.current * deltaMod));
-
             requestAnimationFrame(gameLoop);
         };
 
@@ -62,7 +56,7 @@ const useGameEngine = () => {
         requestAnimationFrame(gameLoop);
 
         return () => { };
-    }, [dispatch]); // Include speed as a dependency
+    }, [dispatch]);
 
 };
 

@@ -9,7 +9,7 @@ import { calculateResourceValue } from "../utils/formatFunctions";
 import { useAutobuyItems } from "./hooks/useAutobuyItems";
 
 // Constants
-const MIN_TICK_IN_SECONDS = 0.01;
+const MIN_TICK_IN_SECONDS = 0.1;
 // const MIN_TICK_IN_SECONDS = 1;
 
 const useGameEngine = () => {

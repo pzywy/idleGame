@@ -162,6 +162,10 @@ export const elements: ICreation[] =
                 {
                     resource: { resource: EResources.divinity },
                     value: 100,
+                },
+                {
+                    resource: { resource: EResources.life, mode: 'perSecond' },
+                    value: 0.001,
                 }
             ],
             cost: [{

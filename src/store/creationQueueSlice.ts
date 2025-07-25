@@ -105,8 +105,8 @@ export const completeCreationQueueItems = createSelector(
 )
 
 export const creationQueueItems = createSelector(
-    [state => state.creationQueue.creations],
-    (creations: CreationQueueState['creations']) => creations
+    [state => state.creationQueue],
+    (creationQueue: CreationQueueState) => creationQueue.creations
 )
 
 export const creationMultiply = createSelector(

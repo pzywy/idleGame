@@ -19,7 +19,10 @@ const Creation: React.FC<{ creation: ICreation }> = ({ creation }) => {
         <div style={styles.card}>
             <CreationHeader creation={creation} />
 
-            <h4>Effects:</h4>
+            <div style={styles.info}>
+
+            </div>
+
             <CreationEffects creation={creation} />
 
 
@@ -46,6 +49,9 @@ const styles: { [key: string]: React.CSSProperties } = {
         padding: "20px",
         textAlign: "center",
         transition: "transform 0.2s ease",
+    },
+    info: {
+        display: 'flex',
     },
     stat: {
         fontSize: "1rem",

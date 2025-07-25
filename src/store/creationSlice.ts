@@ -7,18 +7,29 @@ import { ECreationType, EResources, ICreation } from '../types/creationTypes';
 
 export type ICreationsIndex = Partial<Record<EResources, ICreation>>
 const initialState = {
-    creations: creationList,
-    elements: elements,
-    stats: stats,
-    utils: utilsCreations,
+    allCreations: [
+        ...creationList,
+        ...elements,
+        ...stats,
+        ...utilsCreations,
+    ].flat().reduce((acc, creation) => {
+        acc[creation.id] = creation;
+        return acc;
+    }, {} as ICreationsIndex),
+    // creations: creationList,
+    // elements: elements,
+    // stats: stats,
+    // utils: utilsCreations,
 };
 
 const getCreationFromState = (state: typeof initialState, id: EResources): ICreation | undefined => {
-    const indexState = Object.values(state).flat().reduce((acc, creation) => {
-        acc[creation.id] = creation;
-        return acc;
-    }, {} as ICreationsIndex);
-    return indexState[id];
+    // const indexState = Object.values(state).flat().reduce((acc, creation) => {
+    //     acc[creation.id] = creation;
+    //     return acc;
+    // }, {} as ICreationsIndex);
+    // return indexState[id];
+
+    return state.allCreations[id]
 };
 
 
@@ -26,10 +37,6 @@ const creationsSlice = createSlice({
     name: 'creations',
     initialState,
     selectors: {
-        // indexSelector: (state): ICreationsIndex => Object.values(state).flat().reduce((acc, creation) => {
-        //     acc[creation.id] = creation;
-        //     return acc;
-        // }, {} as ICreationsIndex),
     },
     reducers: {
         addCreation: (state, action: PayloadAction<{ id: EResources, count: number }>) => {
@@ -91,14 +98,15 @@ const creationsSlice = createSlice({
 
 export const allCreationsSelector = createSelector(
     [state => state.creations],
-    (creations: typeof initialState) => Object.values(creations).flat(),
+    (creations: typeof initialState) => Object.values(creations.allCreations),
 )
 
 
 export const creationsWithEffectSelector = createSelector(
     [state => state.creations],
-    (creations: typeof initialState) => Object.values(creations)
-        .flatMap((o: ICreation[]) => o.filter(c => c.owned >= 0))
+    (creations: typeof initialState) => Object.values(creations.allCreations)
+        // .flatMap((o: ICreation[]) => o.filter(c => c.owned >= 0))
+        // .flatMap((o: ICreation[]) => o.filter(c => c.owned >= 0))
         .map(o => ({ ...o, effects: o.effects.filter(o => o.resource.mode && o.resource.mode != 'instant') }))
         .filter(c => c.effects && c.effects.length > 0)
 )
@@ -106,19 +114,19 @@ export const creationsWithEffectSelector = createSelector(
 
 export const creationsSelector = createSelector(
     [state => state.creations],
-    (creations: typeof initialState) => creations.creations
+    (creations: typeof initialState) => Object.values(creations.allCreations).filter(o => o.type == ECreationType.creations)
 )
 export const elementsSelector = createSelector(
     [state => state.creations],
-    (creations: typeof initialState) => creations.elements
+    (creations: typeof initialState) => Object.values(creations.allCreations).filter(o => o.type == ECreationType.elements)
 )
 export const statsSelector = createSelector(
     [state => state.creations],
-    (creations: typeof initialState) => creations.stats
+    (creations: typeof initialState) => Object.values(creations.allCreations).filter(o => o.type == ECreationType.stats)
 )
 export const utilsSelector = createSelector(
     [state => state.creations],
-    (creations: typeof initialState) => creations.utils
+    (creations: typeof initialState) => Object.values(creations.allCreations).filter(o => o.type == ECreationType.utility)
 )
 
 

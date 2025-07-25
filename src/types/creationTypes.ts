@@ -61,4 +61,5 @@ export type ICreation = {
     icon?: string;
     baseCreationTime?: number
     perSecond?: number
+    autobuy?: boolean;
 };

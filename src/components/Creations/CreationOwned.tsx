@@ -12,7 +12,7 @@ const CreationOwned: React.FC<{ creation: ICreation, name?: string }> = ({ creat
                 </p>
             )}
              <p style={styles.stat}>Gained:</p>
-            <CreationEffects creation={creation} count={creation.owned} />
+            <CreationEffects creation={creation} count={creation.created} />
         </div>
     );
 };

@@ -2,11 +2,12 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSpeed } from "../store/gameSlice";
 import { setGlobalSpeedMultiplier, updateProgress } from "../store/creationQueueSlice";
-import useProcessCompletedItems from "../components/hooks/useProcessCompletedItems";
+import useProcessCompletedItems from "./hooks/useProcessCompletedItems";
 import { RootState } from "../store/store";
 import { EResources, ICreation, IResourceEffect } from "../types/creationTypes";
 import { addCreation, setCreationCount, setCreationEffectiveValue, updateCreationPerSecond } from "../store/creationSlice";
 import { calculateResourceValue } from "../utils/formatFunctions";
+import { useAutobuyItems } from "./hooks/useAutobuyItems";
 
 // Constants
 const MIN_TICK_IN_SECONDS = 0.1;
@@ -14,15 +15,19 @@ const MIN_TICK_IN_SECONDS = 0.1;
 const useGameEngine = () => {
     const dispatch = useDispatch();
 
-    // Process completed items globally (e.g., from creation queues)
+    const { autobuyItems } = useAutobuyItems();
+
     useProcessCompletedItems();
+
+
+
 
     // Refs to store dynamic values for calculations
     const lastUpdateRef = useRef<number>(performance.now());
     const speedRef = useRef<number>(1);
-
     const creationsWithEffectsRef = useRef<ICreation[]>([]);
     const creationsRef = useRef<ICreation[]>([]);
+    const autobuyItemsRef = useRef(autobuyItems);
 
     const creations = useSelector((state: RootState) => Object.values(state.creations).flat());
 
@@ -40,7 +45,8 @@ const useGameEngine = () => {
         creationsWithEffectsRef.current = creationsWithEffects;
         creationsRef.current = creations;
         speedRef.current = speedSelected;
-    }, [speedSelected, creationsWithEffects]);
+        autobuyItemsRef.current = autobuyItems;
+    }, [speedSelected, creationsWithEffects, autobuyItems, creations]);
 
     // Function to handle updates during each tick
     const handleTickUpdate = (delta: number) => {
@@ -99,7 +105,11 @@ const useGameEngine = () => {
         // console.log('speedMod', speedMod)
         dispatch(setGlobalSpeedMultiplier(Math.max(1, creationSpeed)))
 
-        // TODO: Add logic to update base speed or other stats if needed
+
+        // autobuyItems(deltaMod)
+        autobuyItemsRef.current(deltaMod);
+        // autobuyItems(deltaMod)
+
     };
 
     // Game loop to calculate elapsed time and trigger updates

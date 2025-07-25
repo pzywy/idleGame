@@ -1,9 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useResourceActions } from "../hooks/useResourceActions";
+import { useResourceActions } from "../../features/hooks/useResourceActions";
 import { ICreation } from "../../types/creationTypes";
 import { RootState } from "../../store/store";
-import { useCreationAffordability } from "../hooks/useCreationAffordability";
+import { useCreationAffordability } from "../../features/hooks/useCreationAffordability";
 import { addToQueue, clearQueue } from "../../store/creationQueueSlice";
 import { formatNumber } from "../../utils/formatNumber";
 import { formatTimeDetailed } from "../../utils/formatTime";

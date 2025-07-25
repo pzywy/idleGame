@@ -2,10 +2,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import Creation from "./Creations/Creation";
+import { creationsSelector } from "../store/creationSlice";
 
 
 const Creations = () => {
-    const creations = useSelector((state: RootState) => state.creations.creations);
+    const creations = useSelector(creationsSelector);
 
     return (
         <div style={styles.container}>

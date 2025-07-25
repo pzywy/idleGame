@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
 import { getStatName } from "../utils/getResourceName";
-import { RootState } from "../store/store";
 import ResourceDisplay from "./ResourceDisplay";
+import { statsSelector, utilsSelector } from "../store/creationSlice";
 
 
 const Stats = () => {
-    const stats = useSelector((state: RootState) => state.creations.stats);
-    const utils = useSelector((state: RootState) => state.creations.utils);
+    const stats = useSelector(statsSelector);
+    const utils = useSelector(utilsSelector);
 
     return (
         <div style={styles.stats}>

@@ -38,13 +38,20 @@ export const useAutobuyItems = () => {
                         // Floor the value if necessary
                         // amountToBuy = Math.floor(amountToBuy);
                     }
-                    // console.log('amountToBuy', amountToBuy)
+
+                    // //log variable
+                    // const resources = creations.filter(cr => creation.cost.map(o => o.resource.resource).includes(cr.id))
+                    //     .map(cr => ({ res: cr.id, owned: cr.owned, costs: (<any>creation.cost.find(o => o.resource.resource == cr.id)?.value) * amountToBuy }))
+                    //     .map(o => ({ id: o.res, diff: o.owned - o.costs, owned: o.owned, cost: o.costs }))
+
+                    // console.log('resources', resources)
 
                     if (amountToBuy >= 1) {
                         amountToBuy = Math.floor(amountToBuy);
                         try {
                             payForResource(creation, amountToBuy);
                             buyResource(creation, amountToBuy);
+                            //veryfi
                         }
                         catch (e) {
                             console.warn('Failed to pay for resource', { amountToBuy, creation, e, maxAmount })
@@ -55,7 +62,7 @@ export const useAutobuyItems = () => {
                     const itemsInQueue = queue[creation.id]?.count;
                     // if there is more then 0.5 item per delta we need to add more to queue (if possible)
 
-                    const maxInQueue = Math.floor(amountToBuy / 0.45)
+                    const maxInQueue = Math.floor(amountToBuy / 0.33)
                     // console.log('amountToBuy', amountToBuy)
                     const isInQueue = itemsInQueue && itemsInQueue > maxInQueue;
                     if (isInQueue) return;

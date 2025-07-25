@@ -98,6 +98,7 @@ export const allCreationsSelector = createSelector(
     (creations: typeof initialState) => Object.values(creations).flat(),
 )
 
+
 export const creationsWithEffectSelector = createSelector(
     [state => state.creations],
     (creations: typeof initialState) => Object.values(creations)

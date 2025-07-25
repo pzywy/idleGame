@@ -18,7 +18,6 @@ export const useResourceActions = () => {
         creation.cost.forEach((cost) => {
             const amount = -cost.value * count;
             modifyResource(cost.resource, amount);
-
         });
     };
 

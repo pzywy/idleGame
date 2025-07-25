@@ -8,7 +8,7 @@ export const utilsCreations: ICreation[] =
             id: EResources.creationSpeed,
             name: "CreationSpeed",
             effects: [],
-            owned: 1,
+            owned: 10,
             effectiveValue: 1,
             created: 0,
             cost: [],

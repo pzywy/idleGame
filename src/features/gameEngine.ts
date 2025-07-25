@@ -9,7 +9,8 @@ import { calculateResourceValue } from "../utils/formatFunctions";
 import { useAutobuyItems } from "./hooks/useAutobuyItems";
 
 // Constants
-const MIN_TICK_IN_SECONDS = 0.1;
+const MIN_TICK_IN_SECONDS = 0.01;
+// const MIN_TICK_IN_SECONDS = 1;
 
 const useGameEngine = () => {
     const dispatch = useDispatch();
@@ -86,24 +87,20 @@ const useGameEngine = () => {
 
 
             const perSecondValue = perSecond * (1 + bonusPerSec)
-            dispatch(updateCreationPerSecond({ id: creation.id, count: perSecond }));
-            dispatch(addCreation({ id: creation.id, count: perSecond * deltaMod }));
+            dispatch(updateCreationPerSecond({ id: creation.id, count: perSecondValue }));
+            dispatch(addCreation({ id: creation.id, count: perSecondValue * deltaMod }));
         })
 
 
         const creationSpeed = creationsRef.current.find(o => o.id == EResources.creationSpeed)?.effectiveValue ?? 1
 
 
-        // Update progress for creation queues
         dispatch(updateProgress({ delta: deltaMod }));
 
-        // console.log('speedMod', speedMod)
         dispatch(setGlobalSpeedMultiplier(Math.max(1, creationSpeed)))
 
 
-        // autobuyItems(deltaMod)
         autobuyItemsRef.current(deltaMod);
-        // autobuyItems(deltaMod)
 
     };
 

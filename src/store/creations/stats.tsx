@@ -18,15 +18,15 @@ export const stats: ICreation[] =
             id: EResources.divinity,
             name: "Divinity",
             effects: [
-                { resource: { resource: EResources.power, mode: 'perSecond' }, value: 0.1 },
-                { resource: { resource: EResources.creationSpeed, mode: 'bonus' }, value: FormatFunction.creationSpeedFromDivinity }
+                { resource: EResources.power, mode: 'perSecond', value: 0.1 },
+                { resource: EResources.creationSpeed, mode: 'bonus', value: FormatFunction.creationSpeedFromDivinity }
             ],
             icon: '⚡'
         }),
         ICreationFactory({
             id: EResources.followers,
             name: "Followers",
-            effects: [{ resource: { resource: EResources.power, mode: 'perSecond' }, value: 1 }],
+            effects: [{ resource: EResources.power, mode: 'perSecond', value: 1 }],
             icon: '👥'
         }),
         ICreationFactory({

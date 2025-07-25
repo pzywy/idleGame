@@ -57,7 +57,7 @@ const useGameEngine = () => {
             let staticVal: number = 0;
 
             creationsWithEffectsRef.current.forEach((creationWithEffect) => {
-                const allEffects = creationWithEffect.effects.filter(o => o.resource.resource == creation.id)
+                const allEffects = creationWithEffect.effects.filter(o => o.resource == creation.id)
                 // console.log('allEffects', allEffects)
 
                 const getEffectiveValue = (o: ICreation) => {
@@ -66,7 +66,7 @@ const useGameEngine = () => {
                     return o.owned
                 }
 
-                const getValuePerResourceMode = (mode: IResource['mode']) => allEffects.filter(o => o.resource.mode == mode)
+                const getValuePerResourceMode = (mode: IResource['mode']) => allEffects.filter(o => o.mode == mode)
                     .map(o => calculateResourceValue(o.value, creationWithEffect))
                     .reduce((acc, cur) => acc + cur * getEffectiveValue(creationWithEffect), 0)
 

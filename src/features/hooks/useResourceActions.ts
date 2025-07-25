@@ -17,18 +17,18 @@ export const useResourceActions = () => {
     const payForResource = (creation: ICreation, count = 1) => {
         creation.cost.forEach((cost) => {
             const amount = -cost.value * count;
-            modifyResource(cost.resource, amount);
+            modifyResource(cost, amount);
         });
     };
 
     const buyResource = (creation: ICreation, count = 1) => {
         creation.effects.forEach((effect) => {
-            const instantMode = effect.resource.mode === 'instant' || effect.resource.mode === undefined
+            const instantMode = effect.mode === 'instant' || effect.mode === undefined
             // console.log('instantMode', instantMode, effect)
             if (!instantMode) return;
             const effectValue = calculateResourceValue(effect.value, creation)
             const amount = effectValue * count;
-            modifyResource(effect.resource, amount);
+            modifyResource(effect, amount);
         });
         dispatch(addCreation({ id: creation.id, count }));
     };

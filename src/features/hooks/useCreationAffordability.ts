@@ -21,7 +21,7 @@ export function getCreationAffordability(creations: ICreation[], creation: ICrea
     // Calculate the affordability based on creation cost
     return Math.min(
         ...creation.cost.map((cr) => {
-            const value = creations.find((o) => o.id === cr.resource.resource);
+            const value = creations.find((o) => o.id === cr.resource);
             if (!value) return 0;
 
             const creationValue = calculateResourceValue(cr.value, creation)

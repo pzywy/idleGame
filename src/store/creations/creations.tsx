@@ -8,12 +8,12 @@ export const creationList: ICreation[] =
             id: EResources.miracle,
             name: "Miracle",
             effects: [
-                { resource: { resource: EResources.followers, }, value: 5 }
+                { resource: EResources.followers, value: 5 }
             ],
             owned: 0,
             created: 0,
             cost: [{
-                resource: { resource: EResources.power, },
+                resource: EResources.power,
                 value: 10,
             }],
             type: ECreationType.creations
@@ -22,12 +22,12 @@ export const creationList: ICreation[] =
             id: EResources.temple,
             name: "Temple",
             effects: [
-                { resource: { resource: EResources.followers, mode: 'perSecond', }, value: 1 }
+                { resource: EResources.followers, mode: 'perSecond', value: 1 }
             ],
             owned: 0,
             created: 0,
             cost: [{
-                resource: { resource: EResources.followers, },
+                resource: EResources.followers,
                 value: 10,
             }],
             type: ECreationType.creations

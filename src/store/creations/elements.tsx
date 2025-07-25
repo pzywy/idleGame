@@ -11,16 +11,16 @@ export const elements: ICreation[] =
             name: "Energy",
             effects: [
                 {
-                    resource: { resource: EResources.divinity },
+                    resource: EResources.divinity,
                     value: 0.5,
                 },
                 {
-                    resource: { resource: EResources.divinity, mode: 'static' },
+                    resource: EResources.divinity, mode: 'static',
                     value: 0.25,
                 }
             ],
             cost: [{
-                resource: { resource: EResources.power },
+                resource: EResources.power,
                 value: 5,
             }],
             baseCreationTime: 1,
@@ -30,15 +30,15 @@ export const elements: ICreation[] =
             name: "Light",
             effects: [
                 {
-                    resource: { resource: EResources.divinity },
+                    resource: EResources.divinity,
                     value: 5,
                 }
             ],
             cost: [{
-                resource: { resource: EResources.power },
+                resource: EResources.power,
                 value: 5,
             }, {
-                resource: { resource: EResources.energy },
+                resource: EResources.energy,
                 value: 5,
             }
             ],
@@ -50,15 +50,15 @@ export const elements: ICreation[] =
             name: "Air",
             effects: [
                 {
-                    resource: { resource: EResources.divinity },
+                    resource: EResources.divinity,
                     value: 25,
                 }
             ],
             cost: [{
-                resource: { resource: EResources.power },
+                resource: EResources.power,
                 value: 20,
             }, {
-                resource: { resource: EResources.energy },
+                resource: EResources.energy,
                 value: 10,
             }
             ],
@@ -70,19 +70,19 @@ export const elements: ICreation[] =
             name: "Water",
             effects: [
                 {
-                    resource: { resource: EResources.divinity },
+                    resource: EResources.divinity,
                     value: 100,
                 }
             ],
             cost: [{
-                resource: { resource: EResources.power },
+                resource: EResources.power,
                 value: 100,
             }, {
-                resource: { resource: EResources.energy },
+                resource: EResources.energy,
                 value: 20,
             },
             {
-                resource: { resource: EResources.air },
+                resource: EResources.air,
                 value: 20,
             }
             ],
@@ -94,15 +94,15 @@ export const elements: ICreation[] =
             name: "Earth",
             effects: [
                 {
-                    resource: { resource: EResources.divinity },
+                    resource: EResources.divinity,
                     value: 100,
                 }
             ],
             cost: [{
-                resource: { resource: EResources.power },
+                resource: EResources.power,
                 value: 100,
             }, {
-                resource: { resource: EResources.energy },
+                resource: EResources.energy,
                 value: 30,
             }
             ],
@@ -114,19 +114,19 @@ export const elements: ICreation[] =
             name: "Stone",
             effects: [
                 {
-                    resource: { resource: EResources.divinity },
+                    resource: EResources.divinity,
                     value: 100,
                 }
             ],
             cost: [{
-                resource: { resource: EResources.power },
+                resource: EResources.power,
                 value: 5,
             }, {
-                resource: { resource: EResources.energy },
+                resource: EResources.energy,
                 value: 5,
             },
             {
-                resource: { resource: EResources.earth },
+                resource: EResources.earth,
                 value: 5,
             }
             ],
@@ -138,18 +138,18 @@ export const elements: ICreation[] =
             name: "Fire",
             effects: [
                 {
-                    resource: { resource: EResources.divinity },
+                    resource: EResources.divinity,
                     value: 50,
                 }
             ],
             cost: [{
-                resource: { resource: EResources.power },
+                resource: EResources.power,
                 value: 100,
             }, {
-                resource: { resource: EResources.energy },
+                resource: EResources.energy,
                 value: 50,
             }, {
-                resource: { resource: EResources.air },
+                resource: EResources.air,
                 value: 50,
             }
             ],
@@ -160,29 +160,29 @@ export const elements: ICreation[] =
             name: "Life",
             effects: [
                 {
-                    resource: { resource: EResources.divinity },
+                    resource: EResources.divinity,
                     value: 100,
                 },
                 {
-                    resource: { resource: EResources.life, mode: 'perSecond' },
+                    resource: EResources.life, mode: 'perSecond',
                     value: 0.001,
                 }
             ],
             cost: [{
-                resource: { resource: EResources.power },
+                resource: EResources.power,
                 value: 1000,
             }, {
-                resource: { resource: EResources.energy },
+                resource: EResources.energy,
                 value: 100,
             },
             {
-                resource: { resource: EResources.air },
+                resource: EResources.air,
                 value: 10,
             }, {
-                resource: { resource: EResources.water },
+                resource: EResources.water,
                 value: 10,
             }, {
-                resource: { resource: EResources.earth },
+                resource: EResources.earth,
                 value: 10,
             }
             ],

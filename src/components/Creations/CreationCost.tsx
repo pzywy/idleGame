@@ -13,7 +13,7 @@ const CreationCost: React.FC<{ creation: ICreation }> = ({ creation }) => {
             <p style={styles.stat}>Cost:</p>
             {creation.cost.map((cost, index) => (
                 <p style={styles.stat} key={index}>
-                    <strong>{getResourceName(cost.resource)}: </strong>
+                    <strong>{getResourceName(cost)}: </strong>
                     <span>{formatNumber(calculateResourceValue(cost.value, creation))}</span>
                 </p>
             ))}

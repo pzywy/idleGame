@@ -36,17 +36,15 @@ export type IResource = {
     resource: EResources,
     //no mode = instant
     mode?: IResourceMode;
+    value: number | FormatFunction; // >0
 }
 
-export type IResourceEffect = {
+export type IResourceEffect = IResource & {
     name?: string;
-    resource: IResource,
-    value: number | FormatFunction; // >0
 }
 
-export type IResourceCost = {
-    resource: IResource
-    value: number | FormatFunction; // >0
+export type IResourceCost = IResource & {
+    resource: EResources,
 }
 
 export type IResourceRequirement = Omit<IResourceCost, 'time'>

@@ -107,7 +107,7 @@ export const creationsWithEffectSelector = createSelector(
     (creations: typeof initialState) => Object.values(creations.allCreations)
         // .flatMap((o: ICreation[]) => o.filter(c => c.owned >= 0))
         // .flatMap((o: ICreation[]) => o.filter(c => c.owned >= 0))
-        .map(o => ({ ...o, effects: o.effects.filter(o => o.resource.mode && o.resource.mode != 'instant') }))
+        .map(o => ({ ...o, effects: o.effects.filter(o => o.mode && o.mode != 'instant') }))
         .filter(c => c.effects && c.effects.length > 0)
 )
 

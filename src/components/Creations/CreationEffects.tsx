@@ -9,7 +9,7 @@ const CreationEffects: React.FC<{ creation: ICreation, count?: number }> = ({ cr
         <div>
             {creation.effects.map((effect, index) => (
                 <div style={styles.stat} key={index}>
-                    <strong>{getResourceName(effect.resource)}: </strong>
+                    <strong>{getResourceName(effect)}: </strong>
                     <span>{formatNumber((calculateResourceValue(effect.value, creation)) * count)}</span>
                 </div>
             ))}

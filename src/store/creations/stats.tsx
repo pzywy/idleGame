@@ -1,8 +1,10 @@
 import { FormatFunction } from "../../utils/formatFunctions";
 import { ECreationType, EResources, ICreation } from "../../types/creationTypes";
-import { ICreationFactory } from "./ICreationFactory";
+import { ICreationFactory as ICreationFactorBase } from "./ICreationFactory";
 
 //TODO array of effects
+
+const ICreationFactory = ICreationFactorBase(ECreationType.stats)
 
 export const stats: ICreation[] =
     [
@@ -10,7 +12,6 @@ export const stats: ICreation[] =
             id: EResources.power,
             name: "Power",
             owned: 100,
-            type: ECreationType.stats,
             icon: '⚡'
         }),
         ICreationFactory({
@@ -20,20 +21,17 @@ export const stats: ICreation[] =
                 { resource: { resource: EResources.power, mode: 'perSecond' }, value: 0.1 },
                 { resource: { resource: EResources.creationSpeed, mode: 'bonus' }, value: FormatFunction.creationSpeedFromDivinity }
             ],
-            type: ECreationType.stats,
             icon: '⚡'
         }),
         ICreationFactory({
             id: EResources.followers,
             name: "Followers",
             effects: [{ resource: { resource: EResources.power, mode: 'perSecond' }, value: 1 }],
-            type: ECreationType.stats,
             icon: '👥'
         }),
         ICreationFactory({
             id: EResources.might,
             name: "Might",
-            type: ECreationType.stats,
             icon: '⚡'
         }),
     ]

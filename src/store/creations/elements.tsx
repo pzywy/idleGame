@@ -1,7 +1,8 @@
 import { ECreationType, EResources, ICreation } from "../../types/creationTypes";
-import { ICreationFactory } from "./ICreationFactory";
-
+import { ICreationFactory as ICreationFactorBase } from "./ICreationFactory";
 //TODO array of effects
+
+const ICreationFactory = ICreationFactorBase(ECreationType.elements)
 
 export const elements: ICreation[] =
     [
@@ -22,7 +23,6 @@ export const elements: ICreation[] =
                 resource: { resource: EResources.power },
                 value: 5,
             }],
-            type: ECreationType.elements,
             baseCreationTime: 1,
         }),
         ICreationFactory({
@@ -43,7 +43,6 @@ export const elements: ICreation[] =
             }
             ],
             baseCreationTime: 10,
-            type: ECreationType.elements,
             requirements: []
         }),
         ICreationFactory({
@@ -64,7 +63,6 @@ export const elements: ICreation[] =
             }
             ],
             baseCreationTime: 25,
-            type: ECreationType.elements,
             requirements: []
         }),
         ICreationFactory({
@@ -89,7 +87,6 @@ export const elements: ICreation[] =
             }
             ],
             baseCreationTime: 50,
-            type: ECreationType.elements,
             requirements: []
         }),
         ICreationFactory({
@@ -110,7 +107,6 @@ export const elements: ICreation[] =
             }
             ],
             baseCreationTime: 60,
-            type: ECreationType.elements,
             requirements: []
         }),
         ICreationFactory({
@@ -135,7 +131,6 @@ export const elements: ICreation[] =
             }
             ],
             baseCreationTime: 3,
-            type: ECreationType.elements,
             requirements: []
         }),
         ICreationFactory({
@@ -159,7 +154,6 @@ export const elements: ICreation[] =
             }
             ],
             baseCreationTime: 3,
-            type: ECreationType.elements,
         }),
         ICreationFactory({
             id: EResources.life,
@@ -189,6 +183,5 @@ export const elements: ICreation[] =
             }
             ],
             baseCreationTime: 3,
-            type: ECreationType.elements,
         }),
     ]

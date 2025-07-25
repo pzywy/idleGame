@@ -1,8 +1,8 @@
-import { ICreation } from "../../types/creationTypes"
+import { ECreationType, ICreation } from "../../types/creationTypes"
 
-type RequiredParameters = { id: ICreation['id'], type: ICreation['type'] }
+type RequiredParameters = { id: ICreation['id'] }
 
-export const ICreationFactory = (data: Partial<ICreation> & RequiredParameters): ICreation => {
+export const ICreationFactory = (type: ECreationType) => (data: Partial<ICreation> & RequiredParameters): ICreation => {
     return {
         name: "No name",
         effects: [],
@@ -11,6 +11,7 @@ export const ICreationFactory = (data: Partial<ICreation> & RequiredParameters):
         cost: [],
         baseCreationTime: 1,
         requirements: [],
+        type,
         ...data
     }
 }

@@ -2,11 +2,11 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useResourceActions } from "../../features/hooks/useResourceActions";
 import { ICreation } from "../../types/creationTypes";
-import { RootState } from "../../store/store";
 import { useCreationAffordability } from "../../features/hooks/useCreationAffordability";
-import { addToQueue, clearQueue } from "../../store/creationQueueSlice";
+import { addToQueue, clearQueue, creationMultiply, creationQueueItemById } from "../../store/creationQueueSlice";
 import { formatNumber } from "../../utils/formatNumber";
 import { formatTimeDetailed } from "../../utils/formatTime";
+import { gameSpeedSelect } from "../../store/gameSlice";
 
 
 //TODO 'check to automate' within queue slice
@@ -14,11 +14,9 @@ const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ crea
     const dispatch = useDispatch();
     const { payForResource } = useResourceActions();
 
-    //add creation before?
-    const queue = useSelector((state: RootState) => state.creationQueue.creations[creation.id]);
-
-    const creationSpeedMod = useSelector((state: RootState) => state.creationQueue.globalSpeedMultiplier);
-    const gameSpeed = useSelector((state: RootState) => state.game.speed);
+    const queue = useSelector(creationQueueItemById(creation.id));
+    const creationSpeedMod = useSelector(creationMultiply);
+    const gameSpeed = useSelector(gameSpeedSelect);
 
     const baseCreationTime = creation.baseCreationTime ?? 0;
     const affordability = useCreationAffordability(creation);

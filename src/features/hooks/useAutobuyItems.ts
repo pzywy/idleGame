@@ -1,22 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 import { useResourceActions } from "./useResourceActions";
-import { RootState } from "../../store/store";
 import { getCreationAffordability } from "./useCreationAffordability";
-import { addToQueue } from "../../store/creationQueueSlice";
+import { addToQueue, creationMultiply, creationQueueItems } from "../../store/creationQueueSlice";
 import { allCreationsSelector } from "../../store/creationSlice";
 
 export const useAutobuyItems = () => {
     const { buyResource, payForResource } = useResourceActions();
     const dispatch = useDispatch();
 
-    const creationMultipy = useSelector((state: RootState) => state.creationQueue.globalSpeedMultiplier);
+    const creationMultipy = useSelector(creationMultiply);
 
     const creations = useSelector(allCreationsSelector);
 
-    const queue = useSelector((state: RootState) =>
-        state.creationQueue.creations
-    );
+    const queue = useSelector(creationQueueItems);
 
     // Memoize the `buyItems` function
     const autobuyItems = useCallback(
@@ -42,9 +39,9 @@ export const useAutobuyItems = () => {
                     // //log variable
                     // const resources = creations.filter(cr => creation.cost.map(o => o.resource.resource).includes(cr.id))
                     //     .map(cr => ({ res: cr.id, owned: cr.owned, costs: (<any>creation.cost.find(o => o.resource.resource == cr.id)?.value) * amountToBuy }))
-                    //     .map(o => ({ id: o.res, diff: o.owned - o.costs, owned: o.owned, cost: o.costs }))
+                    //     .map(o => ({ id: o.res, nextCount: o.owned - o.costs, owned: o.owned, cost: o.costs }))
 
-                    // console.log('resources', resources)
+                    // console.log('resources', JSON.parse(JSON.stringify(resources)))
 
                     if (amountToBuy >= 1) {
                         amountToBuy = Math.floor(amountToBuy);
@@ -80,7 +77,7 @@ export const useAutobuyItems = () => {
                             })
                         );
                     } catch (e) {
-                        console.warn('Failed to pay fo quequed resource')
+                        console.warn('Failed to pay fo quequed resource', e)
                     }
 
                 });

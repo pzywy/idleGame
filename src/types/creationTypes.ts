@@ -29,10 +29,13 @@ export enum ECreationType {
     utility
 }
 
+
+export type IResourceMode = 'perSecond' | 'bonus' | 'bonusPerSec' | 'static' | 'instant'
+
 export type IResource = {
     resource: EResources,
     //no mode = instant
-    mode?: 'perSecond' | 'bonus' | 'bonusPerSec' | 'static' | 'instant'
+    mode?: IResourceMode;
 }
 
 export type IResourceEffect = {

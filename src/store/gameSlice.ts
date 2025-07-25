@@ -1,5 +1,5 @@
 // gameSlice.ts
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 
 const initialState = {
@@ -15,6 +15,12 @@ const gameSlice = createSlice({
         },
     },
 });
+
+export const gameSpeedSelect = createSelector(
+    [state => state.game],
+    (game: typeof initialState) => game.speed
+)
+
 
 export const { setSpeed } = gameSlice.actions;
 export const selectSpeed = (state: RootState) => state.game.speed; // Selector for speed

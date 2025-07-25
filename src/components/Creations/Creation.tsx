@@ -29,7 +29,7 @@ const Creation: React.FC<{ creation: ICreation }> = ({ creation }) => {
 
             <Checkbox label="Autobuy" checked={!!creation.autobuy} onChange={handleCheckboxChange} />
 
-            <CreationBuy creation={creation} />
+            {!creation.autobuy && <CreationBuy creation={creation} />}
 
 
 

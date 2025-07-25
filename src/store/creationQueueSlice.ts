@@ -1,6 +1,6 @@
 // store/creationQueueSlice.ts
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { EResources, ICreation } from "../types/creationTypes";
+import { EResources, ICreation, IResource } from "../types/creationTypes";
 
 interface CreationQueueState {
     globalSpeedMultiplier: number; // Global speed multiplier
@@ -104,6 +104,22 @@ export const completeCreationQueueItems = createSelector(
     ).filter(o => o.amount > 0)
 )
 
+export const creationQueueItems = createSelector(
+    [state => state.creationQueue.creations],
+    (creations: CreationQueueState['creations']) => creations
+)
+
+export const creationMultiply = createSelector(
+    [state => state.creationQueue],
+    (creationQueue: CreationQueueState) => creationQueue.globalSpeedMultiplier
+)
+
+
+export const creationQueueItemById = (id: EResources) =>
+    createSelector(
+        [state => state.creationQueue.creations],
+        (creations: CreationQueueState['creations']) => creations[id] // Return the specific creation by id
+    );
 
 
 export const {

@@ -26,14 +26,10 @@ const creationsSlice = createSlice({
     name: 'creations',
     initialState,
     selectors: {
-        indexSelector: (state): ICreationsIndex => Object.values(state).flat().reduce((acc, creation) => {
-            acc[creation.id] = creation;
-            return acc;
-        }, {} as ICreationsIndex),
-        creationsSelector: (state): ICreation[] => state.creations,
-        elementsSelector: (state): ICreation[] => state.elements,
-        statsSelector: (state): ICreation[] => state.stats,
-        utilsSelector: (state): ICreation[] => state.utils,
+        // indexSelector: (state): ICreationsIndex => Object.values(state).flat().reduce((acc, creation) => {
+        //     acc[creation.id] = creation;
+        //     return acc;
+        // }, {} as ICreationsIndex),
     },
     reducers: {
         addCreation: (state, action: PayloadAction<{ id: EResources, count: number }>) => {
@@ -102,22 +98,34 @@ export const allCreationsSelector = createSelector(
 export const creationsWithEffectSelector = createSelector(
     [state => state.creations],
     (creations: typeof initialState) => Object.values(creations)
-        // .flat()
-        // .flatMap(o => o.filter(_ => true))
         .flatMap((o: ICreation[]) => o.filter(c => c.owned >= 0))
         .map(o => ({ ...o, effects: o.effects.filter(o => o.resource.mode && o.resource.mode != 'instant') }))
         .filter(c => c.effects && c.effects.length > 0)
 )
 
 
+export const creationsSelector = createSelector(
+    [state => state.creations],
+    (creations: typeof initialState) => creations.creations
+)
+export const elementsSelector = createSelector(
+    [state => state.creations],
+    (creations: typeof initialState) => creations.elements
+)
+export const statsSelector = createSelector(
+    [state => state.creations],
+    (creations: typeof initialState) => creations.stats
+)
+export const utilsSelector = createSelector(
+    [state => state.creations],
+    (creations: typeof initialState) => creations.utils
+)
+
+
+
 
 
 export const { addCreation, updateCreationPerSecond, setCreationCount, setCreationEffectiveValue, setCreationAutobuy } = creationsSlice.actions;
 
-export const {
-    creationsSelector,
-    elementsSelector,
-    statsSelector,
-    utilsSelector,
-} = creationsSlice.selectors;
+
 export default creationsSlice.reducer;

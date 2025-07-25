@@ -1,8 +1,7 @@
 import { useSelector } from "react-redux";
 import { ICreation } from "../../types/creationTypes";
-import { RootState } from "../../store/store";
 import { calculateResourceValue } from "../../utils/formatFunctions";
-import { ICreationsIndex } from "../../store/creationSlice";
+import { allCreationsSelector, ICreationsIndex } from "../../store/creationSlice";
 
 //TODO in future we could make all previous needed items too
 
@@ -14,7 +13,7 @@ import { ICreationsIndex } from "../../store/creationSlice";
 export function useCreationAffordability(creation: ICreation): number {
     // Access Redux state using selectors
     // const creationsIndex = useSelector((state: RootState) => state.creations.index);
-    const creations = useSelector((state: RootState) => Object.values(state.creations).flat());
+    const creations = useSelector(allCreationsSelector);
 
     return getCreationAffordability(creations, creation)
     // return getCreationAffordabilityIndex(creationsIndex, creation)

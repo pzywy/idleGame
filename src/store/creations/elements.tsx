@@ -1,29 +1,31 @@
 import { ECreationType, EResources, ICreation } from "../../types/creationTypes";
+import { ICreationFactory } from "./ICreationFactory";
 
 //TODO array of effects
 
 export const elements: ICreation[] =
     [
-        {
+        ICreationFactory({
             id: EResources.energy,
             name: "Energy",
             effects: [
                 {
                     resource: { resource: EResources.divinity },
-                    value: 1,
+                    value: 0.5,
+                },
+                {
+                    resource: { resource: EResources.divinity, mode: 'static' },
+                    value: 0.25,
                 }
             ],
-            owned: 0,
-            created: 0,
             cost: [{
                 resource: { resource: EResources.power },
                 value: 5,
             }],
             type: ECreationType.elements,
             baseCreationTime: 1,
-            requirements: []
-        },
-        {
+        }),
+        ICreationFactory({
             id: EResources.light,
             name: "Light",
             effects: [
@@ -32,104 +34,94 @@ export const elements: ICreation[] =
                     value: 5,
                 }
             ],
-            owned: 0,
-            created: 0,
             cost: [{
                 resource: { resource: EResources.power },
                 value: 5,
             }, {
                 resource: { resource: EResources.energy },
                 value: 5,
-            }
-            ],
-            baseCreationTime: 3,
-            type: ECreationType.elements,
-            requirements: []
-        },
-        {
-            id: EResources.air,
-            name: "Air",
-            effects: [
-                {
-                    resource: { resource: EResources.divinity },
-                    value: 10,
-                }
-            ],
-            owned: 0,
-            created: 0,
-            cost: [{
-                resource: { resource: EResources.power },
-                value: 15,
-            }, {
-                resource: { resource: EResources.energy },
-                value: 10,
             }
             ],
             baseCreationTime: 10,
             type: ECreationType.elements,
             requirements: []
-        },
-        {
+        }),
+        ICreationFactory({
+            id: EResources.air,
+            name: "Air",
+            effects: [
+                {
+                    resource: { resource: EResources.divinity },
+                    value: 25,
+                }
+            ],
+            cost: [{
+                resource: { resource: EResources.power },
+                value: 20,
+            }, {
+                resource: { resource: EResources.energy },
+                value: 10,
+            }
+            ],
+            baseCreationTime: 25,
+            type: ECreationType.elements,
+            requirements: []
+        }),
+        ICreationFactory({
             id: EResources.water,
             name: "Water",
             effects: [
                 {
                     resource: { resource: EResources.divinity },
-                    value: 5,
+                    value: 100,
                 }
             ],
-            owned: 0,
-            created: 0,
             cost: [{
                 resource: { resource: EResources.power },
-                value: 20,
+                value: 100,
             }, {
                 resource: { resource: EResources.energy },
                 value: 20,
             },
             {
                 resource: { resource: EResources.air },
-                value: 5,
+                value: 20,
             }
             ],
-            baseCreationTime: 3,
+            baseCreationTime: 50,
             type: ECreationType.elements,
             requirements: []
-        },
-        {
+        }),
+        ICreationFactory({
             id: EResources.earth,
             name: "Earth",
             effects: [
                 {
                     resource: { resource: EResources.divinity },
-                    value: 5,
+                    value: 100,
                 }
             ],
-            owned: 0,
-            created: 0,
             cost: [{
                 resource: { resource: EResources.power },
-                value: 5,
+                value: 100,
             }, {
                 resource: { resource: EResources.energy },
-                value: 5,
+                value: 30,
             }
             ],
-            baseCreationTime: 3,
+            baseCreationTime: 60,
             type: ECreationType.elements,
             requirements: []
-        },
-        {
+        }),
+        ICreationFactory({
             id: EResources.stone,
             name: "Stone",
             effects: [
                 {
                     resource: { resource: EResources.divinity },
-                    value: 5,
+                    value: 100,
                 }
             ],
-            owned: 0,
-            created: 0,
             cost: [{
                 resource: { resource: EResources.power },
                 value: 5,
@@ -145,8 +137,8 @@ export const elements: ICreation[] =
             baseCreationTime: 3,
             type: ECreationType.elements,
             requirements: []
-        },
-        {
+        }),
+        ICreationFactory({
             id: EResources.fire,
             name: "Fire",
             effects: [
@@ -155,8 +147,6 @@ export const elements: ICreation[] =
                     value: 50,
                 }
             ],
-            owned: 0,
-            created: 0,
             cost: [{
                 resource: { resource: EResources.power },
                 value: 100,
@@ -170,9 +160,8 @@ export const elements: ICreation[] =
             ],
             baseCreationTime: 3,
             type: ECreationType.elements,
-            requirements: []
-        },
-        {
+        }),
+        ICreationFactory({
             id: EResources.life,
             name: "Life",
             effects: [
@@ -181,8 +170,6 @@ export const elements: ICreation[] =
                     value: 100,
                 }
             ],
-            owned: 0,
-            created: 0,
             cost: [{
                 resource: { resource: EResources.power },
                 value: 1000,
@@ -203,6 +190,5 @@ export const elements: ICreation[] =
             ],
             baseCreationTime: 3,
             type: ECreationType.elements,
-            requirements: []
-        },
+        }),
     ]

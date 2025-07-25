@@ -31,8 +31,8 @@ export enum ECreationType {
 
 export type IResource = {
     resource: EResources,
-    //no mode = instant 'gift'
-    mode?: 'perSecond' | 'bonus' | 'bonusPerSec'
+    //no mode = instant
+    mode?: 'perSecond' | 'bonus' | 'bonusPerSec' | 'static' | 'instant'
 }
 
 export type IResourceEffect = {

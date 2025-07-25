@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { creationList } from './creations/creations';
 import { elements } from './creations/elements';
 import { stats } from './creations/stats';
@@ -11,10 +11,6 @@ const initialState = {
     elements: elements,
     stats: stats,
     utils: utilsCreations,
-    // index: creationList.concat(creationList, elements, stats, utilsCreations).reduce((acc, creation) => {
-    //     acc[creation.id] = creation;
-    //     return acc;
-    // }, {} as ICreationsIndex),
 };
 
 const getCreationFromState = (state: typeof initialState, id: EResources): ICreation | undefined => {
@@ -34,10 +30,10 @@ const creationsSlice = createSlice({
             acc[creation.id] = creation;
             return acc;
         }, {} as ICreationsIndex),
-        creationsSelector: (state) => state.creations,
-        elementsSelector: (state) => state.elements,
-        statsSelector: (state) => state.stats,
-        utilsSelector: (state) => state.utils,
+        creationsSelector: (state): ICreation[] => state.creations,
+        elementsSelector: (state): ICreation[] => state.elements,
+        statsSelector: (state): ICreation[] => state.stats,
+        utilsSelector: (state): ICreation[] => state.utils,
     },
     reducers: {
         addCreation: (state, action: PayloadAction<{ id: EResources, count: number }>) => {
@@ -97,6 +93,23 @@ const creationsSlice = createSlice({
 });
 
 
+export const allCreationsSelector = createSelector(
+    [state => state.creations],
+    (creations: typeof initialState) => Object.values(creations).flat(),
+)
+
+export const creationsWithEffectSelector = createSelector(
+    [state => state.creations],
+    (creations: typeof initialState) => Object.values(creations)
+        // .flat()
+        // .flatMap(o => o.filter(_ => true))
+        .flatMap((o: ICreation[]) => o.filter(c => c.owned >= 0))
+        .map(o => ({ ...o, effects: o.effects.filter(o => o.resource.mode && o.resource.mode != 'instant') }))
+        .filter(c => c.effects && c.effects.length > 0)
+)
+
+
+
 
 export const { addCreation, updateCreationPerSecond, setCreationCount, setCreationEffectiveValue, setCreationAutobuy } = creationsSlice.actions;
 
@@ -104,6 +117,6 @@ export const {
     creationsSelector,
     elementsSelector,
     statsSelector,
-    utilsSelector
+    utilsSelector,
 } = creationsSlice.selectors;
 export default creationsSlice.reducer;

@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectSpeed } from "../store/gameSlice";
 import { setGlobalSpeedMultiplier, updateProgress } from "../store/creationQueueSlice";
 import useProcessCompletedItems from "./hooks/useProcessCompletedItems";
-import { RootState } from "../store/store";
-import { EResources, ICreation, IResourceEffect } from "../types/creationTypes";
-import { addCreation, setCreationCount, setCreationEffectiveValue, updateCreationPerSecond } from "../store/creationSlice";
+import { EResources, ICreation, IResource } from "../types/creationTypes";
+import { addCreation, allCreationsSelector, creationsWithEffectSelector, setCreationEffectiveValue, updateCreationPerSecond } from "../store/creationSlice";
 import { calculateResourceValue } from "../utils/formatFunctions";
 import { useAutobuyItems } from "./hooks/useAutobuyItems";
 
@@ -19,9 +18,6 @@ const useGameEngine = () => {
 
     useProcessCompletedItems();
 
-
-
-
     // Refs to store dynamic values for calculations
     const lastUpdateRef = useRef<number>(performance.now());
     const speedRef = useRef<number>(1);
@@ -29,12 +25,9 @@ const useGameEngine = () => {
     const creationsRef = useRef<ICreation[]>([]);
     const autobuyItemsRef = useRef(autobuyItems);
 
-    const creations = useSelector((state: RootState) => Object.values(state.creations).flat());
+    const creations = useSelector(allCreationsSelector);
 
-    const creationsWithEffects = useSelector((state: RootState) => Object.values(state.creations)
-        .flatMap((o: ICreation[]) => o.filter(c => c.owned > 0)))
-        .map(o => ({ ...o, effects: o.effects.filter(o => !!o.resource.mode) }))
-        .filter(c => c.effects && c.effects.length > 0);
+    const creationsWithEffects = useSelector(creationsWithEffectSelector);
 
 
     const speedSelected = useSelector(selectSpeed);
@@ -43,6 +36,7 @@ const useGameEngine = () => {
     // Update refs whenever Redux state changes
     useEffect(() => {
         creationsWithEffectsRef.current = creationsWithEffects;
+        // console.log('creationsWithEffectsRef.current', creationsWithEffectsRef.current)
         creationsRef.current = creations;
         speedRef.current = speedSelected;
         autobuyItemsRef.current = autobuyItems;
@@ -57,41 +51,42 @@ const useGameEngine = () => {
             //calculate perSecond for Each
 
             let perSecond = 0;
-            // let bonusPerSec = 1;
+            let bonusPerSec = 0;
             let bonus: number = 0;
+            let staticVal: number = 0;
 
             creationsWithEffectsRef.current.forEach((creationWithEffect) => {
                 const allEffects = creationWithEffect.effects.filter(o => o.resource.resource == creation.id)
                 // console.log('allEffects', allEffects)
 
-                perSecond += allEffects.filter(o => o.resource.mode == 'perSecond')
-                    .map(o => calculateResourceValue(o.value, creationWithEffect))
-                    .reduce((acc, cur) => acc + cur * creationWithEffect.owned, 0)
+                const getEffectiveValue = (o: ICreation) => {
+                    if (o.effectiveValue !== undefined)
+                        return o.effectiveValue
+                    return o.owned
+                }
 
-                //TODO implement
-                // bonusPerSec += allEffects.filter(o => o.resource.mode == 'bonusPerSec').map(o => o.value)
-                //     .reduce((acc, cur) => acc + cur * creationWithEffect.owned, 0)
-
-                bonus += allEffects.filter(o => o.resource.mode == 'bonus')
+                const getValuePerResourceMode = (mode: IResource['mode']) => allEffects.filter(o => o.resource.mode == mode)
                     .map(o => calculateResourceValue(o.value, creationWithEffect))
-                    .reduce((acc, cur) => acc + cur * creationWithEffect.owned, 0)
+                    .reduce((acc, cur) => acc + cur * getEffectiveValue(creationWithEffect), 0)
+
+                if (creationWithEffect.owned) {
+                    perSecond += getValuePerResourceMode('perSecond')
+                    bonusPerSec += getValuePerResourceMode('bonusPerSec')
+                    bonus += getValuePerResourceMode('bonus')
+                }
+
+                staticVal += getValuePerResourceMode('static')
             }, 0)
 
             //bonus apply only when element has base value
-            if (bonus > 0) {
-                // console.log('bonus', bonus)
-                const value = creation.owned * (1 + bonus)
-                // console.log('value', value)
-                dispatch(setCreationEffectiveValue({ id: creation.id, count: value }));
-            } else
-                dispatch(setCreationEffectiveValue({ id: creation.id, count: creation.owned }));
+            const effectiveValue = (creation.owned + staticVal) * (1 + bonus)
+            dispatch(setCreationEffectiveValue({ id: creation.id, count: effectiveValue }));
 
             if (perSecond < 0) return
 
 
+            const perSecondValue = perSecond * (1 + bonusPerSec)
             dispatch(updateCreationPerSecond({ id: creation.id, count: perSecond }));
-
-            if (perSecond <= 0) return
             dispatch(addCreation({ id: creation.id, count: perSecond * deltaMod }));
         })
 

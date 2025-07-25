@@ -24,7 +24,9 @@ export const useResourceActions = () => {
 
     const buyResource = (creation: ICreation, count = 1) => {
         creation.effects.forEach((effect) => {
-            if (effect.resource.mode === "perSecond") return;
+            const instantMode = effect.resource.mode === 'instant' || effect.resource.mode === undefined
+            // console.log('instantMode', instantMode, effect)
+            if (!instantMode) return;
             const effectValue = calculateResourceValue(effect.value, creation)
             const amount = effectValue * count;
             modifyResource(effect.resource, amount);

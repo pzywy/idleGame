@@ -4,6 +4,7 @@ import { useResourceActions } from "./useResourceActions";
 import { RootState } from "../../store/store";
 import { getCreationAffordability } from "./useCreationAffordability";
 import { addToQueue } from "../../store/creationQueueSlice";
+import { allCreationsSelector } from "../../store/creationSlice";
 
 export const useAutobuyItems = () => {
     const { buyResource, payForResource } = useResourceActions();
@@ -11,9 +12,7 @@ export const useAutobuyItems = () => {
 
     const creationMultipy = useSelector((state: RootState) => state.creationQueue.globalSpeedMultiplier);
 
-    const creations = useSelector((state: RootState) =>
-        Object.values(state.creations).flat()
-    );
+    const creations = useSelector(allCreationsSelector);
 
     const queue = useSelector((state: RootState) =>
         state.creationQueue.creations
@@ -55,7 +54,9 @@ export const useAutobuyItems = () => {
 
                     const itemsInQueue = queue[creation.id]?.count;
                     // if there is more then 0.5 item per delta we need to add more to queue (if possible)
-                    const maxInQueue = amountToBuy > 0.5 ? 1 : 0
+
+                    const maxInQueue = Math.floor(amountToBuy / 0.45)
+                    // console.log('amountToBuy', amountToBuy)
                     const isInQueue = itemsInQueue && itemsInQueue > maxInQueue;
                     if (isInQueue) return;
 

@@ -1,5 +1,5 @@
 // store/creationQueueSlice.ts
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { EResources, ICreation } from "../types/creationTypes";
 
 interface CreationQueueState {
@@ -28,6 +28,7 @@ const creationQueueSlice = createSlice({
             action: PayloadAction<{ creationId: ICreation["id"]; count: number; baseTime: number }>
         ) => {
             const { creationId, count, baseTime } = action.payload;
+
 
             if (!state.creations[creationId]) {
                 state.creations[creationId] = {
@@ -77,22 +78,33 @@ const creationQueueSlice = createSlice({
         },
         clearQueue: (state, action: PayloadAction<ICreation["id"]>) => {
             const creationId = action.payload;
-            if (state.creations[creationId]) {
-                //@ts-ignore
-                state.creations[creationId].progress = 0; // Reset progress
-                //@ts-ignore
-                state.creations[creationId].count = 0; // Clear the queue count
-            }
+            const creation = state.creations[creationId]
+            if (!creation) return
+
+            creation.progress = 0; // Reset progress
+            creation.count = 0; // Clear the queue count
+
         },
         clearCompleted: (state, action: PayloadAction<ICreation["id"]>) => {
             const creationId = action.payload;
-            if (state.creations[creationId]) {
-                //@ts-ignore
-                state.creations[creationId].completedCount = 0; // Reset completed count
-            }
+            const creation = state.creations[creationId]
+            if (!creation) return
+            creation.completedCount = 0; // Reset completed count
+
         },
     },
 });
+
+
+
+export const completeCreationQueueItems = createSelector(
+    [state => state.creationQueue.creations],
+    (creations: CreationQueueState['creations']) => Object.entries(creations).flatMap(([creationId, data]) =>
+        ({ id: creationId as EResources, amount: data.completedCount })
+    ).filter(o => o.amount > 0)
+)
+
+
 
 export const {
     addToQueue,

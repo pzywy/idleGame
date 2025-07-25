@@ -1,4 +1,4 @@
-import { ICreation, EResources } from "../../types/creationTypes";
+import { ICreation, EResources, ECreationType } from "../../types/creationTypes";
 
 //TODO array of effects
 
@@ -16,7 +16,7 @@ export const creationList: ICreation[] =
                 resource: { resource: EResources.power, },
                 value: 10,
             }],
-            type: 'usable'
+            type: ECreationType.creations
         },
         {
             id: EResources.temple,
@@ -30,6 +30,6 @@ export const creationList: ICreation[] =
                 resource: { resource: EResources.followers, },
                 value: 10,
             }],
-            type: 'owned'
+            type: ECreationType.creations
         },
     ]

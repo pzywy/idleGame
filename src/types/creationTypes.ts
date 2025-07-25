@@ -22,6 +22,13 @@ export enum EResources {
     creationSpeed = 'creationSpeed'
 }
 
+export enum ECreationType {
+    stats,
+    elements,
+    creations,
+    utility
+}
+
 export type IResource = {
     resource: EResources,
     //no mode = instant 'gift'
@@ -50,7 +57,7 @@ export type ICreation = {
     created: number;
     cost: IResourceCost[];
     requirements?: IResourceRequirement[]
-    type?: 'owned' | 'usable'
+    type?: ECreationType
     icon?: string;
     baseCreationTime?: number
     perSecond?: number

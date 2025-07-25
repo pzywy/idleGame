@@ -1,4 +1,4 @@
-import { EResources, ICreation } from "../../types/creationTypes";
+import { ECreationType, EResources, ICreation } from "../../types/creationTypes";
 
 //TODO array of effects
 
@@ -12,7 +12,7 @@ export const utilsCreations: ICreation[] =
             effectiveValue: 1,
             created: 0,
             cost: [],
-            type: 'owned',
+            type: ECreationType.utility,
             baseCreationTime: 0,
             requirements: [],
             icon: '⚡'

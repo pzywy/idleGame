@@ -1,4 +1,4 @@
-import { EResources, ICreation } from "../../types/creationTypes";
+import { ECreationType, EResources, ICreation } from "../../types/creationTypes";
 
 //TODO array of effects
 
@@ -19,7 +19,7 @@ export const elements: ICreation[] =
                 resource: { resource: EResources.power },
                 value: 5,
             }],
-            type: 'owned',
+            type: ECreationType.elements,
             baseCreationTime: 1,
             requirements: []
         },
@@ -43,7 +43,7 @@ export const elements: ICreation[] =
             }
             ],
             baseCreationTime: 3,
-            type: 'owned',
+            type: ECreationType.elements,
             requirements: []
         },
         {
@@ -66,7 +66,7 @@ export const elements: ICreation[] =
             }
             ],
             baseCreationTime: 10,
-            type: 'owned',
+            type: ECreationType.elements,
             requirements: []
         },
         {
@@ -93,7 +93,7 @@ export const elements: ICreation[] =
             }
             ],
             baseCreationTime: 3,
-            type: 'owned',
+            type: ECreationType.elements,
             requirements: []
         },
         {
@@ -116,7 +116,7 @@ export const elements: ICreation[] =
             }
             ],
             baseCreationTime: 3,
-            type: 'owned',
+            type: ECreationType.elements,
             requirements: []
         },
         {
@@ -143,7 +143,7 @@ export const elements: ICreation[] =
             }
             ],
             baseCreationTime: 3,
-            type: 'owned',
+            type: ECreationType.elements,
             requirements: []
         },
         {
@@ -169,7 +169,7 @@ export const elements: ICreation[] =
             }
             ],
             baseCreationTime: 3,
-            type: 'owned',
+            type: ECreationType.elements,
             requirements: []
         },
         {
@@ -202,7 +202,7 @@ export const elements: ICreation[] =
             }
             ],
             baseCreationTime: 3,
-            type: 'owned',
+            type: ECreationType.elements,
             requirements: []
         },
     ]

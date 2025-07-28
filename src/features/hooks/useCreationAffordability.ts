@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { ICreation } from "../../types/creationTypes";
 import { calculateResourceValue } from "../../utils/formatFunctions";
 import { allCreationsSelector, ICreationsIndex } from "../../store/creationSlice";
+import { ModifiedResources } from "./useResourceActions";
 
 //TODO in future we could make all previous needed items too
 
@@ -17,16 +18,19 @@ export function useCreationAffordability(creation: ICreation): number {
 
 }
 
-export function getCreationAffordability(creations: ICreation[], creation: ICreation) {
+export function getCreationAffordability(creations: ICreation[], creation: ICreation, modifiedResources: ModifiedResources = {}) {
     // Calculate the affordability based on creation cost
     return Math.min(
         ...creation.cost.map((cr) => {
             const value = creations.find((o) => o.id === cr.resource);
+
             if (!value) return 0;
+
+            const countModificator = modifiedResources[cr.resource] ?? 0
 
             const creationValue = calculateResourceValue(cr.value, creation)
 
-            return Math.max(Math.floor(value.owned / creationValue), 0);
+            return Math.max(Math.floor((value.owned + countModificator) / creationValue), 0);
         })
     );
 }

@@ -16,19 +16,9 @@ const initialState = {
         acc[creation.id] = creation;
         return acc;
     }, {} as ICreationsIndex),
-    // creations: creationList,
-    // elements: elements,
-    // stats: stats,
-    // utils: utilsCreations,
 };
 
 const getCreationFromState = (state: typeof initialState, id: EResources): ICreation | undefined => {
-    // const indexState = Object.values(state).flat().reduce((acc, creation) => {
-    //     acc[creation.id] = creation;
-    //     return acc;
-    // }, {} as ICreationsIndex);
-    // return indexState[id];
-
     return state.allCreations[id]
 };
 
@@ -91,6 +81,13 @@ const creationsSlice = createSlice({
             creation.perSecond = action.payload.count
 
         },
+        updateCreationAutobuyPerSecond: (state, action: PayloadAction<{ id: EResources, count: number }>) => {
+            const creation = getCreationFromState(state, action.payload.id);
+            if (!creation) return;
+            if (!creation) return;
+            creation.autobuyPerSec = action.payload.count
+
+        },
 
     },
 });
@@ -133,7 +130,8 @@ export const utilsSelector = createSelector(
 
 
 
-export const { addCreation, updateCreationPerSecond, setCreationCount, setCreationEffectiveValue, setCreationAutobuy } = creationsSlice.actions;
+export const { addCreation, updateCreationPerSecond, setCreationCount
+    , setCreationEffectiveValue, setCreationAutobuy, updateCreationAutobuyPerSecond } = creationsSlice.actions;
 
 
 export default creationsSlice.reducer;

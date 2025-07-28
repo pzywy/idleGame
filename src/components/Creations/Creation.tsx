@@ -8,6 +8,7 @@ import CreationOwned from "./CreationOwned";
 import Checkbox from "../Checkbox";
 import { useDispatch } from "react-redux";
 import { setCreationAutobuy } from "../../store/creationSlice";
+import { formatNumber } from "../../utils/formatNumber";
 
 const Creation: React.FC<{ creation: ICreation }> = ({ creation }) => {
     const dispatch = useDispatch();
@@ -32,7 +33,9 @@ const Creation: React.FC<{ creation: ICreation }> = ({ creation }) => {
 
             <Checkbox label="Autobuy" checked={!!creation.autobuy} onChange={handleCheckboxChange} />
 
+            {creation.autobuy && creation.autobuyPerSec != undefined && <p>Autobuy per second {formatNumber(creation.autobuyPerSec)}</p>}
             {!creation.autobuy && <CreationBuy creation={creation} />}
+
 
 
 

@@ -42,7 +42,8 @@ const styles: { [key: string]: React.CSSProperties } = {
         gap: '5px',
         flexWrap: 'wrap',
         marginBottom: '10px',
-        padding: '5px'
+        padding: '5px',
+        wordBreak: 'break-word'
     },
 };
 

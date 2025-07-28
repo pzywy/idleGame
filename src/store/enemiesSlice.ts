@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { EResources, ICreation, IPower, IResourceEffect } from "../types/creationTypes";
 
 export enum EEnemy {
@@ -40,10 +40,10 @@ const enemiesSlice = createSlice({
     },
 });
 
-// export const gameSpeedSelect = createSelector(
-//     [state => state.game],
-//     (game: typeof initialState) => game.speed
-// )
+export const enemiesSelector = createSelector(
+    [state => state.enemies],
+    (enemies: typeof initialState) => enemies.enemies
+)
 
 
 // export const { setSpeed } = enemiesSlice.actions;

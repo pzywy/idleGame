@@ -12,7 +12,7 @@ export const stats: ICreation[] =
             id: EResources.power,
             name: "Power",
             owned: 100,
-            icon: '⚡'
+            icon: '⚡',
         }),
         ICreationFactory({
             id: EResources.divinity,
@@ -21,27 +21,29 @@ export const stats: ICreation[] =
                 { resource: EResources.power, mode: 'perSecond', value: 0.1 },
                 { resource: EResources.creationSpeed, mode: 'bonus', value: FormatFunction.creationSpeedFromDivinity }
             ],
-            icon: '⚡'
+            icon: '🌟',
         }),
         ICreationFactory({
             id: EResources.followers,
             name: "Followers",
             effects: [{ resource: EResources.power, mode: 'perSecond', value: 1 }],
-            icon: '👥'
+            icon: '🧑‍🤝‍🧑',
         }),
         ICreationFactory({
             id: EResources.might,
             owned: 1,
             effects: [
                 { resource: EResources.power, mode: 'perSecond', value: 1 },
+                { resource: EResources.health, mode: 'perSecond', value: 10 },
+                { resource: EResources.health, mode: 'max', value: 100 },
             ],
             name: "Might",
-            icon: '⚡'
+            icon: '💪',
         }),
         ICreationFactory({
             id: EResources.health,
             // hideFromUI: true,
             name: "Health",
-            icon: '⚡'
+            icon: '❤️',
         }),
     ]

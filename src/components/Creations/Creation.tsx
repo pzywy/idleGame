@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { setCreationAutobuy } from "../../store/creationSlice";
 import { formatNumber } from "../../utils/formatNumber";
 import CreationUse from "./CreationUse";
+import { cardStyle } from "../cardStyle";
 
 const Creation: React.FC<{ creation: ICreation }> = ({ creation }) => {
     const dispatch = useDispatch();
@@ -47,22 +48,7 @@ const Creation: React.FC<{ creation: ICreation }> = ({ creation }) => {
 
 // Styling
 const styles: { [key: string]: React.CSSProperties } = {
-    card: {
-        backgroundColor: "#f9f9f9",
-        borderRadius: "10px",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-        padding: "20px",
-        textAlign: "center",
-        transition: "transform 0.2s ease",
-    },
-    info: {
-        display: 'flex',
-    },
-    stat: {
-        fontSize: "1rem",
-        color: "#555",
-        margin: "5px 0",
-    },
+    ...cardStyle
 };
 
 export default Creation;

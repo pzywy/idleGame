@@ -1,20 +1,21 @@
 import { useSelector } from "react-redux";
-import Creation from "../Creations/Creation";
 import { elementsSelector } from "../../store/creationSlice";
 import { listStyles } from "./listStyles";
+import Enemy from "../../Enemies/Enemy";
+import { enemiesSelector } from "../../store/enemiesSlice";
 
 
 const Enemies = () => {
-    const elements = useSelector(elementsSelector);
+    const enemies = useSelector(enemiesSelector);
 
     return (
         <div style={listStyles.container}>
             {/* <h2 style={styles.heading}>Creations</h2> */}
             <div style={listStyles.grid}>
-                {elements.map((element) => (
-                    <Creation
+                {enemies.map((element) => (
+                    <Enemy
                         key={element.id}
-                        creation={element}
+                        enemy={element}
                     />
                 ))}
             </div>

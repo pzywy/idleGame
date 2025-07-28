@@ -1,0 +1,42 @@
+.attack-animation {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    animation: flyToTarget 1s ease-in-out forwards;
+}
+
+.attack-animation.player {
+    left: 20%;
+}
+
+.attack-animation.enemy {
+    left: 80%;
+}
+
+.power-name {
+    background: rgba(255, 0, 0, 0.8);
+    /* Consistent red color */
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+@keyframes flyToTarget {
+    0% {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+
+    50% {
+        transform: translateY(-50%) scale(1.2);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-50%) translateX(-400px) scale(0.8);
+        /* Fly to target */
+    }
+}

@@ -4,7 +4,7 @@ import { selectSpeed } from "../store/gameSlice";
 import { setGlobalSpeedMultiplier, updateProgress } from "../store/creationQueueSlice";
 import useProcessCompletedItems from "./hooks/useProcessCompletedItems";
 import { EResources, ICreation, IResource } from "../types/creationTypes";
-import { addCreation, allCreationsSelector, creationsWithEffectSelector, setCreationEffectiveValue, updateCreationPerSecond } from "../store/creationSlice";
+import { addCreation, allCreationsSelector, creationsWithEffectSelector, setCreationEffectiveValue, setMaxValue, updateCreationPerSecond } from "../store/creationSlice";
 import { calculateResourceValue } from "../utils/formatFunctions";
 import { useAutobuyItems } from "./hooks/useAutobuyItems";
 
@@ -56,6 +56,7 @@ const useGameEngine = () => {
             let bonusPerSec = 0;
             let bonus: number = 0;
             let staticVal: number = 0;
+            let maxVal: number = 0;
 
             creationsWithEffectsRef.current.forEach((creationWithEffect) => {
                 const allEffects = creationWithEffect.effects.filter(o => o.resource == creation.id)
@@ -77,6 +78,7 @@ const useGameEngine = () => {
                     bonus += getValuePerResourceMode('bonus')
                 }
 
+                maxVal += getValuePerResourceMode('max')
                 staticVal += getValuePerResourceMode('static')
             }, 0)
 
@@ -84,11 +86,11 @@ const useGameEngine = () => {
             // console.log('creation.owned', creation.owned, staticVal, bonus)
             const effectiveValue = (creation.owned + staticVal) * (1 + bonus)
             // console.log('effectiveValue', effectiveValue)
+            if (maxVal > 0)
+                dispatch(setMaxValue({ id: creation.id, value: maxVal }));
             dispatch(setCreationEffectiveValue({ id: creation.id, count: effectiveValue }));
 
             if (perSecond < 0) return
-
-
             const perSecondValue = perSecond * (1 + bonusPerSec)
             dispatch(updateCreationPerSecond({ id: creation.id, count: perSecondValue }));
             dispatch(addCreation({ id: creation.id, count: perSecondValue * deltaMod }));

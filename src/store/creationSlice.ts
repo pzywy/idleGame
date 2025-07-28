@@ -33,9 +33,15 @@ const creationsSlice = createSlice({
                 if (value < 0 && -value > creation.owned)
                     throw new Error('You cant destroy more creation than you have!!' + JSON.stringify(action.payload))
 
+
+
+
                 creation.owned += value; // Increase the number owned
                 if (value > 0)
                     creation.created += value; // Increase the number owned
+
+                if (creation.maxOwned !== undefined)
+                    creation.owned = Math.min(creation.owned, creation.maxOwned)
             }
 
         },
@@ -64,6 +70,13 @@ const creationsSlice = createSlice({
             // if (!creation.baseCreationTime || creation.baseCreationTime <= 0) return;
 
             creation.autobuy = action.payload.value
+
+        },
+        setMaxValue: (state, action: PayloadAction<{ id: EResources, value: number }>) => {
+            const creation = getCreationFromState(state, action.payload.id);
+            if (!creation) return;
+
+            creation.maxOwned = action.payload.value
 
         },
         updateCreationPerSecond: (state, action: PayloadAction<{ id: EResources, count: number }>) => {
@@ -128,7 +141,7 @@ export const utilsSelector = createSelector(
 
 
 
-export const { addCreation, updateCreationPerSecond, setCreationCount
+export const { addCreation, updateCreationPerSecond, setCreationCount, setMaxValue
     , setCreationEffectiveValue, setCreationAutobuy, updateCreationAutobuyPerSecond } = creationsSlice.actions;
 
 

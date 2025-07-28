@@ -2,7 +2,7 @@ import React from "react";
 
 import { ICreation } from "../../types/creationTypes";
 
-const CreationHeader: React.FC<{ creation: ICreation }> = ({ creation }) => {
+const CreationHeader: React.FC<{ creation: { icon?: string; name: string; } }> = ({ creation }) => {
     return (
         <div>
             <div style={styles.iconContainer}>{creation.icon}</div>

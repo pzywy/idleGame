@@ -37,7 +37,7 @@ export enum ECreationType {
 }
 
 
-export type IResourceMode = 'perSecond' | 'bonus' | 'bonusPerSec' | 'static' | 'instant' | 'onBuy'
+export type IResourceMode = 'perSecond' | 'bonus' | 'bonusPerSec' | 'static' | 'instant' | 'onBuy' | 'max'
 
 export type IResource = {
     resource: EResources,
@@ -54,7 +54,9 @@ export type IResourceCost = IResource & {
 }
 
 export type IPower = IResource & {
-
+    value?: number;
+    min?: number
+    max?: number
 }
 
 export type IResourceRequirement = Omit<IResourceCost, 'time'>
@@ -65,6 +67,7 @@ export type ICreation = {
     effects: IResourceEffect[],
     effectiveValue?: number
     owned: number;
+    maxOwned?: number;
     created: number;
     cost: IResourceCost[];
     requirements?: IResourceRequirement[]

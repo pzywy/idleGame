@@ -5,24 +5,12 @@
     font-family: Arial, sans-serif;
 }
 
-.start-button {
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: green;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
 .fight-area {
     display: flex;
     justify-content: space-between;
     width: 80%;
     margin: 20px 0;
 }
-
-
 
 .health {
     height: 100%;
@@ -33,6 +21,10 @@
 .player-controls {
     margin-top: 20px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
 }
 
 .power-select {
@@ -41,44 +33,9 @@
     margin-bottom: 10px;
 }
 
-.attack-button {
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: red;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
 
 .message {
     margin-top: 20px;
     font-size: 18px;
     font-weight: bold;
-}
-
-.shake {
-    animation: shake 0.5s;
-}
-
-@keyframes shake {
-    0% {
-        transform: translateX(0);
-    }
-
-    25% {
-        transform: translateX(-5px);
-    }
-
-    50% {
-        transform: translateX(5px);
-    }
-
-    75% {
-        transform: translateX(-5px);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
 }

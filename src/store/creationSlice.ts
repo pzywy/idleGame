@@ -103,6 +103,11 @@ export const allCreationsSelector = createSelector(
     (creations: typeof initialState) => Object.values(creations.allCreations),
 )
 
+export const healthSelector = createSelector(
+    [state => state.creations],
+    (creations: typeof initialState) => creations.allCreations['s-health'],
+)
+
 
 export const creationsWithEffectSelector = createSelector(
     [state => state.creations],
@@ -127,9 +132,9 @@ export const statsSelector = createSelector(
     (creations: typeof initialState) => Object.values(creations.allCreations).filter(o => o.type == ECreationType.stats)
 )
 
-export const powersSelector = createSelector(
+export const abilitiesSelector = createSelector(
     [state => state.creations],
-    (creations: typeof initialState) => Object.values(creations.allCreations).filter(o => o.type == ECreationType.power)
+    (creations: typeof initialState) => Object.values(creations.allCreations).filter(o => o.type == ECreationType.ability)
 )
 
 export const utilsSelector = createSelector(

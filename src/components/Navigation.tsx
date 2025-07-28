@@ -7,7 +7,7 @@ const Navigation = () => {
         { name: 'Main', url: '' },
         { name: 'Creations', url: 'creations' },
         { name: 'Enemies', url: 'enemies' },
-        { name: 'Powers', url: 'powers' },
+        { name: 'Abilities', url: 'abilities' },
     ]
 
     return (

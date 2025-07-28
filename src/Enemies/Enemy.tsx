@@ -1,15 +1,11 @@
 import React, { useRef } from "react";
-import { ICreation } from "../types/creationTypes";
 import CreationHeader from "../components/Creations/CreationHeader";
-import CreationEffects from "../components/Creations/CreationEffects";
-import CreationOwned from "../components/Creations/CreationOwned";
-import CreationCost from "../components/Creations/CreationCost";
-import CreationUse from "../components/Creations/CreationUse";
-import CreationBuy from "../components/Creations/CreationBuy";
 import { IEnemy } from "../store/enemiesSlice";
 import { buttonStyle } from "../components/buttonsStyle";
 import { cardStyle } from "../components/cardStyle";
 import FightComponent from "./Fight";
+import { useSelector } from "react-redux";
+import { allCreationsSelector, healthSelector, abilitiesSelector } from "../store/creationSlice";
 
 const Enemy: React.FC<{ enemy: IEnemy }> = ({ enemy }) => {
     // const dispatch = useDispatch();
@@ -18,21 +14,17 @@ const Enemy: React.FC<{ enemy: IEnemy }> = ({ enemy }) => {
 
     const canAttack = true
 
-    const attack = () => { fightRef.current?.startFight() }
+    const playerAbilities = useSelector(abilitiesSelector);
 
-    const playerPowers = [
-        { id: "fireball", name: "Fireball", damage: 10, color: "red" },
-        { id: "ice", name: "Ice Blast", damage: 8, color: "blue" },
-        { id: "lightning", name: "Lightning Strike", damage: 12, color: "yellow" },
-    ];
+    const playerHealth = useSelector(healthSelector); 
 
-    const enemyPowers = [
-        { id: "claw", name: "Claw Swipe", damage: 5, color: "brown" },
-        { id: "bite", name: "Bite", damage: 7, color: "gray" },
-    ];
+
+
+
+    const canFight = playerAbilities.filter(o => o.owned > 0).length > 0
 
     const handleFightEnd = (winner: "player" | "enemy") => {
-        alert(`${winner} wins the fight!`);
+        // alert(`${winner} wins the fight!`);
     };
 
     return (
@@ -43,6 +35,7 @@ const Enemy: React.FC<{ enemy: IEnemy }> = ({ enemy }) => {
 
             </div>
 
+            <p>Defeated: {enemy.defeated}</p>
             {/* <button
                 style={{
                     ...styles.button,
@@ -54,12 +47,13 @@ const Enemy: React.FC<{ enemy: IEnemy }> = ({ enemy }) => {
                 Attack
             </button> */}
 
+            {!canFight ? 'you dont have enough powers!' : ''}
+
             <FightComponent
                 ref={fightRef}
-                playerHealth={100}
-                enemyHealth={50}
-                playerPowers={playerPowers}
-                enemyPowers={enemyPowers}
+                playerHealth={playerHealth?.owned ?? 0}
+                enemy={enemy}
+                playerAbilities={playerAbilities}
                 onFightEnd={handleFightEnd}
             />
 

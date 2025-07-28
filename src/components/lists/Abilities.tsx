@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
 import Creation from "../Creations/Creation";
-import { powersSelector } from "../../store/creationSlice";
+import { abilitiesSelector } from "../../store/creationSlice";
 import { listStyles } from "./listStyles";
 
 
-const Powers = () => {
-    const elements = useSelector(powersSelector);
+const Abilities = () => {
+    const elements = useSelector(abilitiesSelector);
 
     return (
         <div style={listStyles.container}>
@@ -22,4 +22,4 @@ const Powers = () => {
     );
 };
 
-export default Powers;
+export default Abilities;

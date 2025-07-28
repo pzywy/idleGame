@@ -10,11 +10,12 @@
 }
 
 .attack-animation.player {
-    left: 20%;
+
+    right: 20%;
 }
 
 .attack-animation.enemy {
-    left: 80%;
+    left: 20%;
 }
 
 .power-name {
@@ -30,7 +31,7 @@
         transform: translateY(-50%) scale(1);
     }
 
-    50% {
+    75% {
         transform: translateY(-50%) scale(1.2);
     }
 

@@ -1,5 +1,5 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { EResources, ICreation, IPower, IResourceEffect } from "../types/creationTypes";
+import { EResources, ICreation, IAbilities, IResourceEffect } from "../types/creationTypes";
 
 export enum EEnemy {
     chaosEnergy = 'chaosEnergy',
@@ -16,7 +16,8 @@ export type IEnemy = {
     name: string;
     defeated: number,
     effects: IResourceEffect[],
-    powers: IPower[]
+    abilities: IAbilities[]
+    resistance: IAbilities[]
     health: number
     icon?: string;
 };
@@ -27,7 +28,8 @@ const initialState = {
         id: EEnemy.chaosEnergy,
         name: 'Chaos energy',
         health: 100,
-        powers: [{ resource: EResources.energyBlast, value: 1 }],
+        abilities: [{ resource: EResources.energyBlast, min: 15, max: 45, }],
+        resistance: [{ resource: EResources.energyBlast, percentage: 110, }],//it loads from it attack
         defeated: 0,
         effects: [{ resource: EResources.energy, mode: 'instant', value: 10 }]
     }] as IEnemy[], // Default speed multiplier

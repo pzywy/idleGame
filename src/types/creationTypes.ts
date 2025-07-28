@@ -32,7 +32,7 @@ export enum ECreationType {
     stats,
     elements,
     creations,
-    power,
+    ability,
     utility,
 }
 
@@ -53,10 +53,15 @@ export type IResourceEffect = IResource & {
 export type IResourceCost = IResource & {
 }
 
-export type IPower = IResource & {
+export type IAbilities = {
+    resource: EResources,
+    //no mode = instant
+    mode: IResourceMode;
     value?: number;
+    percentage?:number
     min?: number
     max?: number
+    //critical chance
 }
 
 export type IResourceRequirement = Omit<IResourceCost, 'time'>
@@ -65,7 +70,8 @@ export type ICreation = {
     id: EResources;
     name: string;
     effects: IResourceEffect[],
-    effectiveValue?: number
+    effectiveValue?: number;
+    abilities?: IAbilities[]
     owned: number;
     maxOwned?: number;
     created: number;

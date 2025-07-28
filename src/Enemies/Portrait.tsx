@@ -1,5 +1,6 @@
 import React from "react";
 import "./Portrait.css";
+import { formatNumber } from "../utils/formatNumber";
 
 type PortraitProps = {
     name: string; // Name of the character (Player/Enemy)
@@ -27,7 +28,7 @@ const Portrait: React.FC<PortraitProps> = ({
                     }}
                 ></div>
             </div>
-            <p>{name} Health: {health}</p>
+            <p>{name} Health: {formatNumber(health)}</p>
         </div>
     );
 };

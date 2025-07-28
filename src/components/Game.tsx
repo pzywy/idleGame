@@ -4,7 +4,7 @@ import useGameEngine from "../features/gameEngine";
 import { selectSpeed, setSpeed } from "../store/gameSlice";
 import Elements from "./lists/Elements";
 import { Route, Routes } from "react-router-dom";
-import Powers from "./lists/Powers";
+import Abilities from "./lists/Abilities";
 import Enemies from "./lists/Enemies";
 let savedSpeed: number;
 const Game = () => {
@@ -53,7 +53,7 @@ const Game = () => {
                 <Routes>
                     <Route path="/creations" element={<Elements />} />
                     <Route path="/enemies" element={<Enemies />} />
-                    <Route path="/powers" element={<Powers />} />
+                    <Route path="/abilities" element={<Abilities />} />
                     <Route path="/" element={<Creations />} />
                 </Routes>
             </div>

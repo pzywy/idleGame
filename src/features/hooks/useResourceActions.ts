@@ -10,14 +10,14 @@ export type ModifiedResources = Partial<Record<EResources, number>>
 export const useResourceActions = () => {
     const dispatch = useDispatch();
 
-    const modifyResource = (resource: IResource, amount: number) => {
-        dispatch(addCreation({ count: amount, id: resource.resource }));
+    const modifyResource = (id: EResources, amount: number) => {
+        dispatch(addCreation({ count: amount, id }));
     };
 
     const payForResource = (creation: ICreation, count = 1, modifiedResources: ModifiedResources = {}): ModifiedResources => {
         creation.cost.forEach((cost) => {
             const amount = -cost.value * count;
-            modifyResource(cost, amount);
+            modifyResource(cost.resource, amount);
             //@ts-ignore
             if (cost.resource in modifiedResources) modifiedResources[cost.resource] += amount
             else modifiedResources[cost.resource] = amount
@@ -35,7 +35,7 @@ export const useResourceActions = () => {
             if (!instantMode) return;
             const effectValue = calculateResourceValue(effect.value, creation)
             const amount = effectValue * count;
-            modifyResource(effect, amount);
+            modifyResource(effect.resource, amount);
             //@ts-ignore
             if (effect.resource in modifiedResources) modifiedResources[effect.resource] += amount
             else modifiedResources[effect.resource] = amount

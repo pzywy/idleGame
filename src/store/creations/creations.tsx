@@ -8,11 +8,12 @@ export const creationList: ICreation[] =
             id: EResources.miracle,
             name: "Miracle",
             effects: [
-                { resource: EResources.followers, value: 5 }
+                { mode: 'onBuy', resource: EResources.followers, value: 5 }
             ],
             owned: 0,
             created: 0,
             cost: [{
+                mode: 'onBuy',
                 resource: EResources.power,
                 value: 10,
             }],
@@ -27,6 +28,7 @@ export const creationList: ICreation[] =
             owned: 0,
             created: 0,
             cost: [{
+                mode: 'onBuy',
                 resource: EResources.followers,
                 value: 10,
             }],

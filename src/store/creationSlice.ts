@@ -1,18 +1,10 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { creationList } from './creations/creations';
-import { elements } from './creations/elements';
-import { stats } from './creations/stats';
-import { utilsCreations } from './creations/utilsCreations';
 import { ECreationType, EResources, ICreation } from '../types/creationTypes';
+import { allResources } from './creations/allResources';
 
 export type ICreationsIndex = Partial<Record<EResources, ICreation>>
 const initialState = {
-    allCreations: [
-        ...creationList,
-        ...elements,
-        ...stats,
-        ...utilsCreations,
-    ].flat().reduce((acc, creation) => {
+    allCreations: allResources.flat().reduce((acc, creation) => {
         acc[creation.id] = creation;
         return acc;
     }, {} as ICreationsIndex),
@@ -69,7 +61,7 @@ const creationsSlice = createSlice({
         setCreationAutobuy: (state, action: PayloadAction<{ id: EResources, value: boolean }>) => {
             const creation = getCreationFromState(state, action.payload.id);
             if (!creation) return;
-            if (!creation || creation.type != ECreationType.elements) return;
+            // if (!creation.baseCreationTime || creation.baseCreationTime <= 0) return;
 
             creation.autobuy = action.payload.value
 
@@ -104,7 +96,7 @@ export const creationsWithEffectSelector = createSelector(
     (creations: typeof initialState) => Object.values(creations.allCreations)
         // .flatMap((o: ICreation[]) => o.filter(c => c.owned >= 0))
         // .flatMap((o: ICreation[]) => o.filter(c => c.owned >= 0))
-        .map(o => ({ ...o, effects: o.effects.filter(o => o.mode && o.mode != 'instant') }))
+        .map(o => ({ ...o, effects: o.effects.filter(o => o.mode && o.mode != 'onBuy') }))
         .filter(c => c.effects && c.effects.length > 0)
 )
 
@@ -121,6 +113,12 @@ export const statsSelector = createSelector(
     [state => state.creations],
     (creations: typeof initialState) => Object.values(creations.allCreations).filter(o => o.type == ECreationType.stats)
 )
+
+export const powersSelector = createSelector(
+    [state => state.creations],
+    (creations: typeof initialState) => Object.values(creations.allCreations).filter(o => o.type == ECreationType.power)
+)
+
 export const utilsSelector = createSelector(
     [state => state.creations],
     (creations: typeof initialState) => Object.values(creations.allCreations).filter(o => o.type == ECreationType.utility)

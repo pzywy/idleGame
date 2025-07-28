@@ -45,8 +45,9 @@ const useGameEngine = () => {
 
     // Function to handle updates during each tick
     const handleTickUpdate = (delta: number) => {
-        const deltaMod = delta * speedRef.current;
 
+        const deltaMod = delta * speedRef.current;
+        if (deltaMod == 0) return
 
         creationsRef.current.forEach(creation => {
             //calculate perSecond for Each
@@ -80,7 +81,9 @@ const useGameEngine = () => {
             }, 0)
 
             //bonus apply only when element has base value
+            // console.log('creation.owned', creation.owned, staticVal, bonus)
             const effectiveValue = (creation.owned + staticVal) * (1 + bonus)
+            // console.log('effectiveValue', effectiveValue)
             dispatch(setCreationEffectiveValue({ id: creation.id, count: effectiveValue }));
 
             if (perSecond < 0) return

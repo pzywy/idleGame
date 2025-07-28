@@ -16,7 +16,6 @@ export const useAutobuyItems = () => {
 
     const queue = useSelector(creationQueueItems);
 
-    // Memoize the `buyItems` function
     const autobuyItems = useCallback(
         async (delta: number) => {
             const autobuyItems = creations.filter(o => !!o.autobuy);
@@ -30,7 +29,8 @@ export const useAutobuyItems = () => {
                     const adjustedDelta = delta * creationMultipy;
                     const itemsPerDelta = (adjustedDelta / creation.baseCreationTime);
                     amountToBuy = Math.min(itemsPerDelta, maxAmount);
-                }
+                } else
+                    amountToBuy = maxAmount
 
                 let buyPerSec = amountToBuy / delta;
 
@@ -39,8 +39,6 @@ export const useAutobuyItems = () => {
                         id: creation.id, count: buyPerSec,
                     })
                 );
-
-
 
                 //instant buy
                 if (amountToBuy >= 1) {

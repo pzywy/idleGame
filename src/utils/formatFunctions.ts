@@ -7,7 +7,7 @@ export enum FormatFunction {
 
 export const formatFunctions: Record<FormatFunction, (arg: ICreation) => number> = {
     //need to divide by c.owned as it will be multiplayed
-    [FormatFunction.creationSpeedFromDivinity]: (c: ICreation) => Math.log10(c.owned) / c.owned / 1,
+    [FormatFunction.creationSpeedFromDivinity]: (c: ICreation) => Math.max(Math.log10(c.owned), 0) / c.owned,
 };
 
 export function calculateResourceValue(value: number | FormatFunction, creation: ICreation) {

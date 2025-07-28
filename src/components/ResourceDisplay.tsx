@@ -23,10 +23,14 @@ const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
     return (
         <div style={styles.container}>
             {icon && <div style={styles.icon}>{icon}</div>}
+            <span style={styles.name}>{name} </span>
             <div style={styles.info}>
-                <span style={styles.name}>{name}: </span>
+
                 <div style={styles.value}>
                     {formatNumber(value ?? 0, decimalPlaces, decimalPlaces0)}
+                    {/* {!!effectiveValue && <span style={styles.value}>({formatNumber(effectiveValue ?? 0, decimalPlaces, decimalPlaces0)})</span>} */}
+                </div>
+                <div style={styles.value}>
                     {!!effectiveValue && <span style={styles.value}>({formatNumber(effectiveValue ?? 0, decimalPlaces, decimalPlaces0)})</span>}
                 </div>
 
@@ -45,10 +49,12 @@ const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
 
 const styles: { [key: string]: React.CSSProperties } = {
     container: {
-        minWidth: '300px',
         display: "flex",
         alignItems: "center",
-        // marginBottom: "10px",
+        justifyContent: 'center',
+        flexDirection: 'column',
+        // borderBottom: 'solid black 1px'
+        marginBottom: '5px'
     },
     icon: {
         marginRight: "10px",
@@ -58,22 +64,23 @@ const styles: { [key: string]: React.CSSProperties } = {
         display: "flex",
         alignItems: "center",
         marginRight: "10px",
+        flexDirection: 'column'
     },
     name: {
         fontWeight: "bold",
         marginRight: "5px",
-        width: "80px",
+        // width: "80px",
     },
     value: {
         fontFamily: "monospace",
-        width: "80px",
+        // width: "80px",
         textAlign: "right",
     },
     perSecond: {
         color: "green",
         fontStyle: "italic",
         fontFamily: "monospace",
-        width: "80px",
+        // width: "80px",
         textAlign: "right",
     },
 };

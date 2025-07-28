@@ -7,6 +7,7 @@ import { addToQueue, clearQueue, creationMultiply, creationQueueItemById } from 
 import { formatNumber } from "../../utils/formatNumber";
 import { formatTimeDetailed } from "../../utils/formatTime";
 import { gameSpeedSelect } from "../../store/gameSlice";
+import { buttonStyle } from "../buttonsStyle";
 
 
 //TODO 'check to automate' within queue slice
@@ -105,6 +106,7 @@ const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ crea
 };
 
 const styles: { [key: string]: React.CSSProperties } = {
+    ...buttonStyle,
     buttons: {
         display: "flex",
         flexDirection: "column",
@@ -112,17 +114,6 @@ const styles: { [key: string]: React.CSSProperties } = {
         alignItems: "center",
         justifyContent: "center",
         width: "100%",
-    },
-    button: {
-        marginTop: "5px",
-        padding: "5px 10px",
-        fontSize: "1rem",
-        color: "#fff",
-        backgroundColor: "#007BFF",
-        border: "none",
-        borderRadius: "5px",
-        cursor: "pointer",
-        transition: "background-color 0.3s ease",
     },
     buyButtons: {
         display: "flex",

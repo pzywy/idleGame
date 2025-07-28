@@ -1,5 +1,6 @@
 import './App.css';
 import Game from './components/Game';
+import Navigation from './components/Navigation';
 import Stats from './components/Stats';
 
 function App() {
@@ -7,14 +8,20 @@ function App() {
     <div className="app">
       <header>
         <h1>Idling Game</h1>
-         <Stats />
+        {/* <Stats /> */}
+        <Navigation />
       </header>
-      <main>
-        <Game />
-      </main>
-      <footer>
+      <div className='layout'>
+        <div className='side-nav'>
+          <Stats />
+        </div>
+        <main>
+          <Game />
+        </main>
+      </div>
+      {/* <footer>
         <p>Created by me</p>
-      </footer>
+      </footer> */}
     </div>
   );
 }

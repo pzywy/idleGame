@@ -9,12 +9,15 @@ import Checkbox from "../Checkbox";
 import { useDispatch } from "react-redux";
 import { setCreationAutobuy } from "../../store/creationSlice";
 import { formatNumber } from "../../utils/formatNumber";
+import CreationUse from "./CreationUse";
 
 const Creation: React.FC<{ creation: ICreation }> = ({ creation }) => {
     const dispatch = useDispatch();
     const handleCheckboxChange = (value: boolean) => {
         dispatch(setCreationAutobuy({ id: creation.id, value }))
     };
+
+    const autobuyLabel = 'Autobuy ' + (creation.autobuy && creation.autobuyPerSec != undefined ? `${formatNumber(creation.autobuyPerSec)}/s` : '')
 
     return (
         <div style={styles.card}>
@@ -31,13 +34,12 @@ const Creation: React.FC<{ creation: ICreation }> = ({ creation }) => {
 
             <CreationCost creation={creation} />
 
-            <Checkbox label="Autobuy" checked={!!creation.autobuy} onChange={handleCheckboxChange} />
+            <Checkbox label={autobuyLabel} checked={!!creation.autobuy} onChange={handleCheckboxChange} />
 
-            {creation.autobuy && creation.autobuyPerSec != undefined && <p>Autobuy per second {formatNumber(creation.autobuyPerSec)}</p>}
+            {!!creation.usable && <CreationUse creation={creation} />}
+
+
             {!creation.autobuy && <CreationBuy creation={creation} />}
-
-
-
 
         </div >
     );

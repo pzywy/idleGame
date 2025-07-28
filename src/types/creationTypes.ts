@@ -1,19 +1,25 @@
 import { FormatFunction } from "../utils/formatFunctions";
 
+//TODO change to ECreations
 export enum EResources {
-    followers = 'followers',
-    power = 'power',
-    divinity = 'divinity',
-    might = 'might',
+    health = 's-health',
+    followers = 's-followers',
+    power = 's-power',
+    divinity = 's-divinity',
+    might = 's-might',
 
-    energy = 'energy',
-    light = 'light',
-    air = 'air',
-    fire = 'fire',
-    water = 'water',
-    earth = 'earth',
-    stone = 'stone',
-    life = 'life',
+    energy = 'e-energy',
+    light = 'e-light',
+    air = 'e-air',
+    fire = 'e-fire',
+    water = 'e-water',
+    earth = 'e-earth',
+    stone = 'e-stone',
+    life = 'e-life',
+
+    powerPunch = 'p-powerPunch',
+    energyBlast = 'p-energyBlast',
+    divineStrke = 'p-divineStrike',
 
 
     miracle = 'miracle',
@@ -26,16 +32,17 @@ export enum ECreationType {
     stats,
     elements,
     creations,
-    utility
+    power,
+    utility,
 }
 
 
-export type IResourceMode = 'perSecond' | 'bonus' | 'bonusPerSec' | 'static' | 'instant'
+export type IResourceMode = 'perSecond' | 'bonus' | 'bonusPerSec' | 'static' | 'instant' | 'onBuy'
 
 export type IResource = {
     resource: EResources,
     //no mode = instant
-    mode?: IResourceMode;
+    mode: IResourceMode;
     value: number | FormatFunction; // >0
 }
 
@@ -44,7 +51,10 @@ export type IResourceEffect = IResource & {
 }
 
 export type IResourceCost = IResource & {
-    resource: EResources,
+}
+
+export type IPower = IResource & {
+
 }
 
 export type IResourceRequirement = Omit<IResourceCost, 'time'>
@@ -63,6 +73,9 @@ export type ICreation = {
     baseCreationTime?: number
     perSecond?: number
 
+    usable?: boolean;
+
     autobuy?: boolean;
     autobuyPerSec?: number
+    hideFromUI?: boolean
 };

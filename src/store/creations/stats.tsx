@@ -31,7 +31,17 @@ export const stats: ICreation[] =
         }),
         ICreationFactory({
             id: EResources.might,
+            owned: 1,
+            effects: [
+                { resource: EResources.power, mode: 'perSecond', value: 1 },
+            ],
             name: "Might",
+            icon: '⚡'
+        }),
+        ICreationFactory({
+            id: EResources.health,
+            // hideFromUI: true,
+            name: "Health",
             icon: '⚡'
         }),
     ]

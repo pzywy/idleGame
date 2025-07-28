@@ -7,8 +7,6 @@ import { calculateResourceValue } from "../../utils/formatFunctions";
 const CreationCost: React.FC<{ creation: ICreation }> = ({ creation }) => {
     return (
 
-
-
         <div>
             <p style={styles.stat}>Cost:</p>
             {creation.cost.map((cost, index) => (

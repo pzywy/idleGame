@@ -1,17 +1,20 @@
-import Stats from "./Stats";
-import Creations from "./Creations";
+import Creations from "./lists/Creations";
 import { useDispatch, useSelector } from "react-redux";
 import useGameEngine from "../features/gameEngine";
 import { selectSpeed, setSpeed } from "../store/gameSlice";
-import Elements from "./Elements";
-
+import Elements from "./lists/Elements";
+import { Route, Routes } from "react-router-dom";
+import Powers from "./lists/Powers";
+import Enemies from "./lists/Enemies";
+let savedSpeed: number;
 const Game = () => {
     const dispatch = useDispatch();
     // Select computed values from Redux
     const speed = useSelector(selectSpeed);
 
 
-    useGameEngine(); // Use the game engine
+
+    useGameEngine();
 
     const increaseSpeed = () => {
         dispatch(setSpeed(speed * 2))
@@ -22,18 +25,37 @@ const Game = () => {
     };
 
 
+    const pause = () => {
+        if (savedSpeed && speed == 0) {
+            dispatch(setSpeed(savedSpeed))
+        }
+        else {
+            savedSpeed = Number(speed)
+            dispatch(setSpeed(0))
+        }
+    };
+
+
+
     return (
         <div style={styles.container}>
             <div style={styles.speed}>
                 <p>Speed: {speed}</p>
+                <button onClick={pause}>{speed > 0 ? 'Pause' : 'Resume'}</button>
                 <button onClick={increaseSpeed}>Increase Speed</button>
                 <button onClick={decreaseSpeed}>Decrease Speed</button>
 
+
             </div>
             {/* <Stats /> */}
+
             <div style={styles.gameField}>
-                <Elements />
-                <Creations />
+                <Routes>
+                    <Route path="/creations" element={<Elements />} />
+                    <Route path="/enemies" element={<Enemies />} />
+                    <Route path="/powers" element={<Powers />} />
+                    <Route path="/" element={<Creations />} />
+                </Routes>
             </div>
         </div>
     );

@@ -30,7 +30,7 @@ export const useResourceActions = () => {
 
         //add resources from instant effect
         creation.effects.forEach((effect) => {
-            const instantMode = effect.mode === 'instant' || effect.mode === undefined
+            const instantMode = effect.mode === 'onBuy'
             // console.log('instantMode', instantMode, effect)
             if (!instantMode) return;
             const effectValue = calculateResourceValue(effect.value, creation)

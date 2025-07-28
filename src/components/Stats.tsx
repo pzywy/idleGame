@@ -9,7 +9,7 @@ const Stats = () => {
 
     return (
         <div style={styles.stats}>
-            {stats.map((stat, index) => (
+            {stats.filter(o => !o.hideFromUI).map((stat, index) => (
                 <ResourceDisplay key={index}
                     name={stat.name}
                     value={stat.owned}
@@ -38,12 +38,12 @@ const Stats = () => {
 const styles: { [key: string]: React.CSSProperties } = {
     stats: {
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         gap: '5px',
         flexWrap: 'wrap',
         marginBottom: '10px',
         padding: '5px',
-        wordBreak: 'break-word'
+        wordBreak: 'break-word',
     },
 };
 

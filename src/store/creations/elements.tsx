@@ -11,6 +11,7 @@ export const elements: ICreation[] =
             name: "Energy",
             effects: [
                 {
+                    mode: 'onBuy',
                     resource: EResources.divinity,
                     value: 0.5,
                 },
@@ -20,6 +21,7 @@ export const elements: ICreation[] =
                 }
             ],
             cost: [{
+                mode: 'onBuy',
                 resource: EResources.power,
                 value: 5,
             }],
@@ -30,14 +32,17 @@ export const elements: ICreation[] =
             name: "Light",
             effects: [
                 {
+                    mode: 'onBuy',
                     resource: EResources.divinity,
                     value: 5,
                 }
             ],
             cost: [{
+                mode: 'onBuy',
                 resource: EResources.power,
                 value: 5,
             }, {
+                mode: 'onBuy',
                 resource: EResources.energy,
                 value: 5,
             }
@@ -50,14 +55,17 @@ export const elements: ICreation[] =
             name: "Air",
             effects: [
                 {
+                    mode: 'onBuy',
                     resource: EResources.divinity,
                     value: 25,
                 }
             ],
             cost: [{
+                mode: 'onBuy',
                 resource: EResources.power,
                 value: 20,
             }, {
+                mode: 'onBuy',
                 resource: EResources.energy,
                 value: 10,
             }
@@ -70,18 +78,22 @@ export const elements: ICreation[] =
             name: "Water",
             effects: [
                 {
+                    mode: 'onBuy',
                     resource: EResources.divinity,
                     value: 100,
                 }
             ],
             cost: [{
+                mode: 'onBuy',
                 resource: EResources.power,
                 value: 100,
             }, {
+                mode: 'onBuy',
                 resource: EResources.energy,
                 value: 20,
             },
             {
+                mode: 'onBuy',
                 resource: EResources.air,
                 value: 20,
             }
@@ -94,14 +106,17 @@ export const elements: ICreation[] =
             name: "Earth",
             effects: [
                 {
+                    mode: 'onBuy',
                     resource: EResources.divinity,
                     value: 100,
                 }
             ],
             cost: [{
+                mode: 'onBuy',
                 resource: EResources.power,
                 value: 100,
             }, {
+                mode: 'onBuy',
                 resource: EResources.energy,
                 value: 30,
             }
@@ -114,18 +129,22 @@ export const elements: ICreation[] =
             name: "Stone",
             effects: [
                 {
+                    mode: 'onBuy',
                     resource: EResources.divinity,
                     value: 100,
                 }
             ],
             cost: [{
+                mode: 'onBuy',
                 resource: EResources.power,
                 value: 5,
             }, {
+                mode: 'onBuy',
                 resource: EResources.energy,
                 value: 5,
             },
             {
+                mode: 'onBuy',
                 resource: EResources.earth,
                 value: 5,
             }
@@ -138,17 +157,21 @@ export const elements: ICreation[] =
             name: "Fire",
             effects: [
                 {
+                    mode: 'onBuy',
                     resource: EResources.divinity,
                     value: 50,
                 }
             ],
             cost: [{
+                mode: 'onBuy',
                 resource: EResources.power,
                 value: 100,
             }, {
+                mode: 'onBuy',
                 resource: EResources.energy,
                 value: 50,
             }, {
+                mode: 'onBuy',
                 resource: EResources.air,
                 value: 50,
             }
@@ -160,6 +183,7 @@ export const elements: ICreation[] =
             name: "Life",
             effects: [
                 {
+                    mode: 'onBuy',
                     resource: EResources.divinity,
                     value: 100,
                 },
@@ -169,19 +193,24 @@ export const elements: ICreation[] =
                 }
             ],
             cost: [{
+                mode: 'onBuy',
                 resource: EResources.power,
                 value: 1000,
             }, {
+                mode: 'onBuy',
                 resource: EResources.energy,
                 value: 100,
             },
             {
+                mode: 'onBuy',
                 resource: EResources.air,
                 value: 10,
             }, {
+                mode: 'onBuy',
                 resource: EResources.water,
                 value: 10,
             }, {
+                mode: 'onBuy',
                 resource: EResources.earth,
                 value: 10,
             }

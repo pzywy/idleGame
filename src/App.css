@@ -1,0 +1,31 @@
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.app>* {
+    flex: 1
+}
+
+.layout {
+    flex: 1 1 auto;
+    overflow: auto;
+    display: flex;
+}
+
+.layout>* {
+    flex: 1 1 auto;
+}
+
+.side-nav {
+    /* width: 200px; */
+    overflow: auto;
+    flex: 0 1 auto;
+}
+
+
+.app main {
+    flex: 1 1 auto;
+    overflow: auto;
+}

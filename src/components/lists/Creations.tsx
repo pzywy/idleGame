@@ -9,7 +9,7 @@ const Creations = () => {
 
     return (
         <div style={listStyles.container}>
-            <h2 style={listStyles.heading}>Creations</h2>
+            <h2 style={listStyles.heading}>Followers</h2>
             <div style={listStyles.grid}>
                 {creations.map((creation) => (
                     <Creation

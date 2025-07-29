@@ -18,4 +18,8 @@ export const buttonStyle: { [key: string]: React.CSSProperties } = {
         cursor: "pointer",
         transition: "background-color 0.3s ease",
     },
+    disabledButton: {
+        backgroundColor: "#ccc",
+        cursor: "not-allowed",
+    },
 };

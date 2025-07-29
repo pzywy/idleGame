@@ -1,3 +1,5 @@
+import { formatNumber } from "./formatNumber";
+
 // utils/formatTime.ts
 export const formatTime = (seconds: number, decimalPlaces: number = 0): string => {
     if (seconds < 0) return "Invalid Time"; // Handle invalid input
@@ -40,10 +42,11 @@ export const formatTimeDetailed = (seconds: number): string => {
 
     // Build the formatted time string
     const parts = [];
-    if (days > 0) parts.push(`${days}d`);
-    if (hours > 0) parts.push(`${hours}h`);
-    if (minutes > 0) parts.push(`${minutes}min`);
-    if (seconds > 0) parts.push(`${formatTime(seconds)}`);
+    if (days > 0) parts.push(`${formatNumber(days)}d`);
+    if (hours > 0) parts.push(`${formatNumber(hours)}h`);
+    if (minutes > 0) parts.push(`${formatNumber(minutes)}min`);
+    if (seconds > 0) parts.push(`${formatTime(seconds)}s`);
+    // console.log('parts', parts)
 
     return parts.slice(0, 2).join(" ");
 };

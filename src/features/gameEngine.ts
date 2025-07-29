@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSpeed } from "../store/gameSlice";
+import { addForwardTime, forwardTimeSelect, maxForwardTimeSelect, selectSpeed } from "../store/gameSlice";
 import { setGlobalSpeedMultiplier, updateProgress } from "../store/creationQueueSlice";
 import useProcessCompletedItems from "./hooks/useProcessCompletedItems";
 import { EResources, ICreation, IResource } from "../types/creationTypes";
@@ -21,6 +21,9 @@ const useGameEngine = () => {
 
     // Refs to store dynamic values for calculations
     const lastUpdateRef = useRef<number>(performance.now());
+    const forwardtime = useSelector(forwardTimeSelect);
+    const maxForwardtime = useSelector(maxForwardTimeSelect);
+    const fowardTimeRef = useRef<number>(forwardtime);
     const speedRef = useRef<number>(1);
     const creationsWithEffectsRef = useRef<ICreation[]>([]);
     const creationsRef = useRef<ICreation[]>([]);
@@ -40,8 +43,9 @@ const useGameEngine = () => {
         // console.log('creationsWithEffectsRef.current', creationsWithEffectsRef.current)
         creationsRef.current = creations;
         speedRef.current = speedSelected;
+        fowardTimeRef.current = forwardtime
         autobuyItemsRef.current = autobuyItems;
-    }, [speedSelected, creationsWithEffects, autobuyItems, creations]);
+    }, [speedSelected, creationsWithEffects, autobuyItems, creations, forwardtime]);
 
     // Function to handle updates during each tick
     const handleTickUpdate = (delta: number) => {
@@ -116,7 +120,14 @@ const useGameEngine = () => {
 
             if (elapsed >= MIN_TICK_IN_SECONDS) {
                 lastUpdateRef.current = timestamp;
-                handleTickUpdate(elapsed);
+                let timeToProcess = elapsed
+                // console.log('fowardTimeRef.current', fowardTimeRef.current)
+                if (fowardTimeRef.current > 0) {
+                    timeToProcess = Math.min(fowardTimeRef.current + elapsed, maxForwardtime)
+                    dispatch(addForwardTime(-(timeToProcess - elapsed)))
+                }
+
+                handleTickUpdate(timeToProcess);
             }
 
             requestAnimationFrame(gameLoop);

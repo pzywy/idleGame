@@ -1,7 +1,7 @@
 import Creations from "./lists/Creations";
 import { useDispatch, useSelector } from "react-redux";
 import useGameEngine from "../features/gameEngine";
-import { selectSpeed, setSpeed } from "../store/gameSlice";
+import { addForwardTime, selectSpeed, setSpeed } from "../store/gameSlice";
 import Elements from "./lists/Elements";
 import { Route, Routes } from "react-router-dom";
 import Abilities from "./lists/Abilities";
@@ -35,6 +35,10 @@ const Game = () => {
         }
     };
 
+    const addMinute = () => {
+        dispatch(addForwardTime(60))
+    }
+
 
 
     return (
@@ -44,6 +48,7 @@ const Game = () => {
                 <button onClick={pause}>{speed > 0 ? 'Pause' : 'Resume'}</button>
                 <button onClick={increaseSpeed}>Increase Speed</button>
                 <button onClick={decreaseSpeed}>Decrease Speed</button>
+                <button onClick={addMinute}>Add 1 minute</button>
 
 
             </div>

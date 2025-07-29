@@ -7,8 +7,7 @@ import { getResourceName } from "../utils/getResourceName";
 import { buttonStyle } from "../components/buttonsStyle";
 import { IEnemy } from "../store/enemiesSlice";
 import { useResourceActions } from "../features/hooks/useResourceActions";
-import { useSelector } from "react-redux";
-import { abilitiesSelector } from "../store/creationSlice";
+import { formatNumber } from "../utils/formatNumber";
 
 
 type FightComponentProps = {
@@ -37,7 +36,7 @@ const FightComponent = forwardRef((props: FightComponentProps, ref) => {
         const updatedSelectedPower = playerAbilitiesRef.current.find(o => o.id == playerSelectedAbility?.id) ?? null
         setPlayerSelectedAbility(updatedSelectedPower);
         // console.log('playerSelectedPower', playerSelectedPower)
-        setAttackAmount(Math.min(attackAmount, playerSelectedAbility?.owned ?? 1))
+        setAttackAmount(Math.max(Math.min(attackAmount, playerSelectedAbility?.owned ?? 1), 1))
 
 
         // console.log('playerPowerRef.current', playerPowerRef.current)
@@ -137,17 +136,35 @@ const FightComponent = forwardRef((props: FightComponentProps, ref) => {
 
     const getPowerDamage = (power: IAbilities, attackAmount: number = 1, enemyHeath = 0, enemyResistances?: IAbilities[]): number => {
         //TODO armor / resistance
-        if (power.value) { return power.value * attackAmount }
-        //TODO calculate each attack separatly
-        if (power.min && power.max) { return attackAmount * Number((Math.random() * (power.max - power.min) + power.min).toFixed(2)); }
-        if (power.percentage) return enemyHeath * power.percentage * attackAmount// better to do reccurrency here
-        return 0
+        let totalDmg = 0;
+        if (power.value) totalDmg = power.value * attackAmount
+
+        if (power.percentage) {
+            let totalDmg = 0;
+            for (let i = 0; i < attackAmount; i++) {
+                let dmg = enemyHeath * power.percentage / 100;
+                enemyHeath -= dmg
+                // console.log('enemyHeath', enemyHeath, dmg)
+                totalDmg += dmg
+                // console.log('totalDmg', totalDmg)
+            }
+            return totalDmg
+        }
+
+        if (power.min && power.max) {
+            for (let i = 0; i < attackAmount; i++) {
+                totalDmg += Number((Math.random() * (power.max - power.min) + power.min).toFixed(2))
+            }
+
+        }
+
+        return Number(totalDmg.toFixed(3))
     }
 
     const enemyAttack = () => {
         const randomPower =
             enemy.abilities[Math.floor(Math.random() * enemy.abilities.length)];
-        const totalEnemyDamage = getPowerDamage(randomPower)
+        const totalEnemyDamage = getPowerDamage(randomPower, 1, playerCurrentHealth)
         setDamageTaken(totalEnemyDamage + damageTaken)
         const newPlayerHealth = Math.max(0, playerCurrentHealth - totalEnemyDamage);
         setPlayerCurrentHealth(newPlayerHealth);
@@ -181,6 +198,8 @@ const FightComponent = forwardRef((props: FightComponentProps, ref) => {
             setShaking((prev) => ({ ...prev, [target]: false }));
         }, 1000);
     };
+
+    const canAttack = playerSelectedAbility && playerSelectedAbility?.owned && playerSelectedAbility?.owned > 0
 
     return (
         <div className="fight-container">
@@ -221,6 +240,7 @@ const FightComponent = forwardRef((props: FightComponentProps, ref) => {
                             <h3>Select Ability</h3>
                             <select
                                 className="power-select"
+                                value={playerSelectedAbility?.id}
                                 onChange={(e) =>
                                     setPlayerSelectedAbility(
                                         playerAbilitiesRef.current.find((p) => p.id === e.target.value) || null
@@ -238,7 +258,7 @@ const FightComponent = forwardRef((props: FightComponentProps, ref) => {
                                 <input
                                     type="range"
                                     min="1"
-                                    disabled={!playerSelectedAbility?.owned || playerSelectedAbility?.owned <= 0}
+                                    disabled={!canAttack}
                                     max={playerSelectedAbility?.owned}
                                     value={attackAmount}
                                     onChange={(e) => setAttackAmount(Number(e.target.value))}
@@ -246,10 +266,12 @@ const FightComponent = forwardRef((props: FightComponentProps, ref) => {
                                 <p>Attack Amount: {attackAmount}</p>
                             </div> : ''}
 
-
-
-                            <button style={buttonStyle.button}
-                                disabled={!playerSelectedAbility?.owned || playerSelectedAbility?.owned <= 0}
+                            <button
+                                style={{
+                                    ...buttonStyle.button,
+                                    ...(!canAttack ? buttonStyle.disabledButton : {}),
+                                }}
+                                disabled={!canAttack}
                                 onClick={attack}>
                                 Attack!
                             </button>

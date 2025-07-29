@@ -107,25 +107,6 @@ const CreationBuy: React.FC<{ creation: ICreation; buyName?: string }> = ({ crea
 
 const styles: { [key: string]: React.CSSProperties } = {
     ...buttonStyle,
-    buttons: {
-        display: "flex",
-        flexDirection: "column",
-        gap: "5px",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-    },
-    buyButtons: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: 'center',
-        gap: "5px",
-
-    },
-    disabledButton: {
-        backgroundColor: "#ccc",
-        cursor: "not-allowed",
-    },
     progressContainer: {
         marginTop: "20px",
         width: "100%",

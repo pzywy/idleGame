@@ -55,7 +55,7 @@ export const attacks: ICreation[] =
             baseCreationTime: 10,
         }),
         ICreationFactory({
-            id: EResources.energyBlast,
+            id: EResources.fingerSnap,
             name: "Finger Snap",
             abilities: [{
                 mode: 'instant',
@@ -65,7 +65,7 @@ export const attacks: ICreation[] =
             cost: [{
                 mode: 'onBuy',
                 resource: EResources.energy,
-                value: 5,
+                value: 10e6,
             }],
             baseCreationTime: 10,
         })

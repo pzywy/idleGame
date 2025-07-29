@@ -17,9 +17,10 @@ export enum EResources {
     stone = 'e-stone',
     life = 'e-life',
 
-    powerPunch = 'p-powerPunch',
-    energyBlast = 'p-energyBlast',
-    divineStrke = 'p-divineStrike',
+    powerPunch = 'a-powerPunch',
+    energyBlast = 'a-energyBlast',
+    divineStrke = 'a-divineStrike',
+    fingerSnap = 'a-fingerSnap',
 
 
     miracle = 'miracle',
@@ -58,10 +59,18 @@ export type IAbilities = {
     //no mode = instant
     mode: IResourceMode;
     value?: number;
-    percentage?:number
+    percentage?: number
     min?: number
     max?: number
     //critical chance
+}
+
+export type IResistance = {
+    resource?: EResources,
+    value?: number;
+    percentage?: number
+    min?: number
+    max?: number
 }
 
 export type IResourceRequirement = Omit<IResourceCost, 'time'>

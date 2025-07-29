@@ -2,7 +2,7 @@ import { useState, useImperativeHandle, forwardRef, useRef, useEffect } from "re
 import Portrait from "./Portrait";
 import AttackAnimation from "./AttackAnimation";
 import "./Fight.css";
-import { ICreation, IAbilities } from "../types/creationTypes";
+import { ICreation, IAbilities, EResources, IResistance } from "../types/creationTypes";
 import { getResourceName } from "../utils/getResourceName";
 import { buttonStyle } from "../components/buttonsStyle";
 import { IEnemy } from "../store/enemiesSlice";
@@ -111,7 +111,7 @@ const FightComponent = forwardRef((props: FightComponentProps, ref) => {
         }
 
         // Player attacks first
-        const totalPlayerDamage = (playerSelectedAbility.abilities && playerSelectedAbility.abilities.reduce((acc, curr) => acc + getPowerDamage(curr, attackAmount, enemyCurrentHealth), 0)) ?? 0;
+        const totalPlayerDamage = (playerSelectedAbility.abilities && playerSelectedAbility.abilities.reduce((acc, curr) => acc + getPowerDamage(curr, playerSelectedAbility.id, attackAmount, enemyCurrentHealth, enemy.resistance), 0)) ?? 0;
         const newEnemyHealth = Math.max(0, enemyCurrentHealth - totalPlayerDamage);
         setEnemyCurrentHealth(newEnemyHealth);
 
@@ -134,29 +134,50 @@ const FightComponent = forwardRef((props: FightComponentProps, ref) => {
     };
 
 
-    const getPowerDamage = (power: IAbilities, attackAmount: number = 1, enemyHeath = 0, enemyResistances?: IAbilities[]): number => {
+    const getPowerDamage = (power: IAbilities, powerId: EResources, attackAmount: number = 1, enemyHeath = 0, enemyResistances?: IResistance[]): number => {
+
+        // console.log('enemyResistances', power, enemyResistances)
+        const resistances = enemyResistances?.filter(o => !o.resource || o.resource == powerId)
         //TODO armor / resistance
         let totalDmg = 0;
-        if (power.value) totalDmg = power.value * attackAmount
 
-        if (power.percentage) {
-            let totalDmg = 0;
-            for (let i = 0; i < attackAmount; i++) {
+        for (let i = 0; i < attackAmount; i++) {
+            if (power.value) {
+                totalDmg += power.value
+            }
+
+            if (power.percentage) {
                 let dmg = enemyHeath * power.percentage / 100;
-                enemyHeath -= dmg
-                // console.log('enemyHeath', enemyHeath, dmg)
                 totalDmg += dmg
-                // console.log('totalDmg', totalDmg)
-            }
-            return totalDmg
-        }
-
-        if (power.min && power.max) {
-            for (let i = 0; i < attackAmount; i++) {
-                totalDmg += Number((Math.random() * (power.max - power.min) + power.min).toFixed(2))
             }
 
+            if (power.min && power.max) {
+                totalDmg += Math.random() * (power.max - power.min) + power.min
+            }
+            // console.log('totalDmg', totalDmg, resistances)
+            resistances?.forEach(res => {
+                if (res.value) {
+                    totalDmg -= res.value
+                }
+
+                if (res.percentage) {
+                    totalDmg = totalDmg - (totalDmg * res.percentage / 100)
+                }
+
+                if (res.min && res.max) {
+                    totalDmg -= Math.random() * (res.max - res.min) + res.min
+                }
+
+
+
+            })
+            // console.log('totalDmg', totalDmg, resistances)
+            totalDmg = Math.max(0, totalDmg)
+            enemyHeath = Math.max(enemyHeath - totalDmg, 0)
         }
+
+
+
 
         return Number(totalDmg.toFixed(3))
     }
@@ -164,7 +185,7 @@ const FightComponent = forwardRef((props: FightComponentProps, ref) => {
     const enemyAttack = () => {
         const randomPower =
             enemy.abilities[Math.floor(Math.random() * enemy.abilities.length)];
-        const totalEnemyDamage = getPowerDamage(randomPower, 1, playerCurrentHealth)
+        const totalEnemyDamage = getPowerDamage(randomPower, randomPower.resource, 1, playerCurrentHealth)
         setDamageTaken(totalEnemyDamage + damageTaken)
         const newPlayerHealth = Math.max(0, playerCurrentHealth - totalEnemyDamage);
         setPlayerCurrentHealth(newPlayerHealth);

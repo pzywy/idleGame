@@ -1,5 +1,5 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { EResources, ICreation, IAbilities, IResourceEffect, IResistance } from "../types/creationTypes";
+import { EResources, IAbilities, IResourceEffect, IResistance } from "../types/creationTypes";
 
 export enum EEnemy {
     chaosEnergy = 'chaosEnergy',

@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { elementsSelector } from "../../store/creationSlice";
 import { listStyles } from "./listStyles";
 import Enemy from "../../Enemies/Enemy";
 import { enemiesSelector } from "../../store/enemiesSlice";

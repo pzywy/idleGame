@@ -25,7 +25,7 @@ export const elements: ICreation[] =
                 resource: EResources.power,
                 value: 5,
             }],
-            baseCreationTime: 1,
+            baseCreationTime: 0.25,
         }),
         ICreationFactory({
             id: EResources.light,
@@ -47,7 +47,7 @@ export const elements: ICreation[] =
                 value: 5,
             }
             ],
-            baseCreationTime: 10,
+            baseCreationTime: 2,
             requirements: []
         }),
         ICreationFactory({
@@ -70,7 +70,7 @@ export const elements: ICreation[] =
                 value: 10,
             }
             ],
-            baseCreationTime: 25,
+            baseCreationTime: 5,
             requirements: []
         }),
         ICreationFactory({
@@ -98,7 +98,7 @@ export const elements: ICreation[] =
                 value: 20,
             }
             ],
-            baseCreationTime: 50,
+            baseCreationTime: 10,
             requirements: []
         }),
         ICreationFactory({
@@ -121,7 +121,7 @@ export const elements: ICreation[] =
                 value: 30,
             }
             ],
-            baseCreationTime: 60,
+            baseCreationTime: 20,
             requirements: []
         }),
         ICreationFactory({
@@ -149,7 +149,7 @@ export const elements: ICreation[] =
                 value: 5,
             }
             ],
-            baseCreationTime: 3,
+            baseCreationTime: 25,
             requirements: []
         }),
         ICreationFactory({
@@ -215,6 +215,6 @@ export const elements: ICreation[] =
                 value: 10,
             }
             ],
-            baseCreationTime: 3,
+            baseCreationTime: 60,
         }),
     ]

@@ -7,7 +7,6 @@ import { getResourceName } from "../utils/getResourceName";
 import { buttonStyle } from "../components/buttonsStyle";
 import { IEnemy } from "../store/enemiesSlice";
 import { useResourceActions } from "../features/hooks/useResourceActions";
-import { formatNumber } from "../utils/formatNumber";
 
 
 type FightComponentProps = {
